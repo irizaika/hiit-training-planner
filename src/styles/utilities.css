@@ -1,0 +1,123 @@
+@import "./variables.css";
+
+/* -------------------------------------------------- */
+/* Main */
+/* -------------------------------------------------- */
+.eyebrow {
+  margin-bottom: var(--space-4);
+
+  color: var(--color-text-muted);
+
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  letter-spacing: 0.14em;
+}
+
+
+/* -------------------------------------------------- */
+/* Links */
+/* -------------------------------------------------- */
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* -------------------------------------------------- */
+/* Buttons */
+/* -------------------------------------------------- */
+
+button {
+  font: inherit;
+}
+
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--color-text);
+  outline-offset: 3px;
+}
+/*-----*/
+.primary-button,
+.secondary-button {
+  min-height: 42px;
+  padding: 0 var(--space-4);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background var(--transition-fast),
+    border-color var(--transition-fast);
+}
+
+.primary-button {
+  border: 1px solid var(--color-text);
+  background: var(--color-text);
+  color: var(--color-bg);
+}
+
+.primary-button:hover {
+  opacity: 0.9;
+}
+
+.secondary-button {
+  border: 1px solid var(--color-border);
+  background: transparent;
+  color: var(--color-text-muted);
+}
+
+.secondary-button:hover {
+  background: var(--color-surface-hover);
+  color: var(--color-text);
+}
+
+/* -------------------------------------------------- */
+/* Form elements */
+/* -------------------------------------------------- */
+
+input,
+select,
+textarea {
+  font: inherit;
+  color: var(--color-text);
+
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+
+  background: var(--color-surface);
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--color-text-subtle);
+}
+
+/* -------------------------------------------------- */
+/* Utility */
+/* -------------------------------------------------- */
+
+.text-muted {
+  color: var(--color-text-muted);
+}
+
+.text-subtle {
+  color: var(--color-text-subtle);
+}
+
+.surface {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+}
+
+/* -------------------------------------------------- */
+/* Mobile */
+/* -------------------------------------------------- */
+@media (max-width: 700px) {
+  .primary-button,
+  .secondary-button {
+    width: 100%;
+  }
+}

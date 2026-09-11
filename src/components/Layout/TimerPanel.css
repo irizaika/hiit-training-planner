@@ -1,0 +1,40 @@
+/* --------------------------------
+   Timer panel
+--------------------------------- */
+.timer-panel {
+  min-height: 680px;
+  padding: var(--space-10);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-bg);
+}
+
+.timer-empty {
+  max-width: 360px;
+  text-align: center;
+}
+
+.timer-empty-icon {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto var(--space-6);
+
+  display: grid;
+  place-items: center;
+
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-full);
+
+  color: var(--color-text-muted);
+  font-size: 28px;
+}
+
+.timer-empty h2 {
+  margin-bottom: var(--space-3);
+  font-size: 28px;
+}
+
+.timer-empty > p:last-child {
+  color: var(--color-text-muted);
+}

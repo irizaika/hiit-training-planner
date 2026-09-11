@@ -1,0 +1,263 @@
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+
+  display: grid;
+  place-items: center;
+
+  padding: var(--space-5);
+
+  background: rgb(0 0 0 / 0.45);
+}
+
+.modal {
+  width: 100%;
+  max-width: 620px;
+  max-height: min(760px, calc(100vh - 40px));
+
+  overflow-y: auto;
+
+  padding: var(--space-8);
+
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+
+  background: var(--color-bg);
+  color: var(--color-text);
+
+  box-shadow: 0 20px 60px rgb(0 0 0 / 0.18);
+}
+
+.modal-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-4);
+
+  margin-bottom: var(--space-8);
+}
+
+.modal-header h2 {
+  margin-top: var(--space-1);
+  font-size: 28px;
+}
+
+.modal-close-button {
+  width: 36px;
+  height: 36px;
+
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+
+  background: transparent;
+  color: var(--color-text-muted);
+
+  font-size: 24px;
+  line-height: 1;
+
+  cursor: pointer;
+}
+
+.modal-close-button:hover {
+  background: var(--color-surface);
+  color: var(--color-text);
+}
+
+.form-group {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+
+  margin-bottom: var(--space-5);
+}
+
+.form-group label,
+.form-section > .form-section-header label {
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+}
+
+.form-group input {
+  width: 100%;
+  min-height: 44px;
+
+  padding: 0 var(--space-3);
+
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+
+  background: var(--color-bg);
+  color: var(--color-text);
+
+  font: inherit;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: var(--color-text);
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-3);
+}
+
+.input-suffix {
+  margin-top: -8px;
+
+  color: var(--color-text-subtle);
+  font-size: var(--font-size-xs);
+}
+
+.form-section {
+  margin-top: var(--space-6);
+  padding-top: var(--space-6);
+
+  border-top: 1px solid var(--color-border);
+}
+
+.form-section-header {
+  margin-bottom: var(--space-4);
+}
+
+.form-section-header p {
+  margin-top: var(--space-1);
+
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+  line-height: 1.5;
+}
+
+.exercise-form-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.exercise-form-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.exercise-number {
+  display: grid;
+
+  width: 28px;
+  height: 28px;
+
+  flex-shrink: 0;
+
+  place-items: center;
+
+  border-radius: var(--radius-full);
+
+  background: var(--color-surface);
+  color: var(--color-text-muted);
+
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+}
+
+.exercise-form-row input {
+  flex: 1;
+  min-width: 0;
+  min-height: 44px;
+
+  padding: 0 var(--space-3);
+
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+
+  background: var(--color-bg);
+  color: var(--color-text);
+
+  font: inherit;
+}
+
+.exercise-form-row input:focus {
+  outline: none;
+  border-color: var(--color-text);
+}
+
+.remove-exercise-button {
+  width: 36px;
+  height: 36px;
+
+  flex-shrink: 0;
+
+  border: 0;
+  background: transparent;
+
+  color: var(--color-text-muted);
+
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.remove-exercise-button:hover {
+  color: var(--color-text);
+}
+
+.add-exercise-button {
+  margin-top: var(--space-3);
+
+  border: 0;
+  background: transparent;
+
+  color: var(--color-text-muted);
+
+  font: inherit;
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+.add-exercise-button:hover {
+  color: var(--color-text);
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-3);
+
+  margin-top: var(--space-8);
+  padding-top: var(--space-5);
+
+  border-top: 1px solid var(--color-border);
+}
+
+@media (max-width: 600px) {
+  .modal-backdrop {
+    align-items: end;
+    padding: 0;
+  }
+
+  .modal {
+    max-height: 90vh;
+
+    padding: var(--space-6) var(--space-5);
+
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+
+@media (max-width: 420px) {
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .modal-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+}

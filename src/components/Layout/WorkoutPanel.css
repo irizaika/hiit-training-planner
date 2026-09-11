@@ -1,0 +1,131 @@
+/* --------------------------------
+   Workout panel
+--------------------------------- */
+.workout-panel {
+  padding: var(--space-8);
+  border-right: 1px solid var(--color-border);
+}
+
+.panel-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: var(--space-6);
+}
+
+.panel-header h1 {
+  font-size: clamp(30px, 4vw, 44px);
+}
+
+
+.workout-count {
+  display: grid;
+  min-width: 32px;
+  height: 32px;
+  padding: 0 8px;
+  place-items: center;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-full);
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+}
+
+
+.workout-actions {
+  margin-top: var(--space-6);
+  display: flex;
+  gap: var(--space-2);
+}
+
+/* --------------------------------
+   Mobile
+--------------------------------- */
+@media (max-width: 800px) {
+  .workout-panel {
+    padding: var(--space-5);
+    border-right: 0;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .panel-header {
+    margin-bottom: var(--space-4);
+  }
+
+  .panel-header h1 {
+    font-size: 32px;
+  }
+
+  .workout-actions {
+    flex-direction: column;
+  }
+}
+
+
+/* .workout-panel {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  padding: var(--space-8);
+  border-right: 1px solid var(--color-border);
+}
+
+.panel-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: var(--space-6);
+}
+
+.panel-header h1 {
+  font-size: clamp(30px, 4vw, 44px);
+}
+
+.workout-count {
+  display: grid;
+  min-width: 32px;
+  height: 32px;
+  padding: 0 8px;
+  place-items: center;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-full);
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+}
+
+.workout-list-container {
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.workout-actions {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-2);
+  margin-top: var(--space-6);
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--color-border);
+}
+
+@media (max-width: 800px) {
+  .workout-panel {
+    padding: var(--space-5);
+    border-right: 0;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .panel-header {
+    margin-bottom: var(--space-4);
+  }
+
+  .panel-header h1 {
+    font-size: 32px;
+  }
+
+  .workout-list-container {
+    overflow-y: visible;
+  }
+
+  .workout-actions {
+    grid-template-columns: 1fr;
+  }
+} */
