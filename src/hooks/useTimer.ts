@@ -4,6 +4,7 @@ import {
   TIMER_PHASE,
   type TimerState,
 } from "../models/timer";
+import { playCountdownBeep } from "../utils/countdownSound";
 
 interface UseTimerProps {
   workout: HiitWorkout;
@@ -95,6 +96,12 @@ export function useTimer({ workout }: UseTimerProps) {
     };
   }, [timer.phase, workout]);
 
+  useEffect(() => {
+    if ( timer.remainingSeconds >= 1 && timer.remainingSeconds <= 3) {
+      playCountdownBeep(timer.remainingSeconds, timer.phase);
+    }
+  }, [timer.remainingSeconds, timer.phase]);
+
   return {
     timer,
     start,
@@ -107,7 +114,7 @@ function createInitialTimerState(workout: HiitWorkout): TimerState {
   return {
     phase: TIMER_PHASE.IDLE,
     previousPhase: null,
-    remainingSeconds: 3,
+    remainingSeconds: 4,
     currentRound: 1,
     totalRounds: workout.rounds,
     currentExercise: 0,
