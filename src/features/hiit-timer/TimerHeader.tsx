@@ -1,23 +1,22 @@
 import type { HiitWorkout } from "../../models/workout";
 import type { TimerPhase } from "../../models/timer";
+import {formatTime} from "../../utils/time";
 
 interface TimerHeaderProps {
   workout: HiitWorkout;
   phase: TimerPhase;
   totalRounds: number;
   totalTime: number;
-  onEdit: () => void;
+  onRestart?: () => void;
 }
 
 export function TimerHeader({
   workout,
   phase,
   totalRounds,
-  totalTime,
-  onEdit,
+  totalTime, 
+  onRestart
 }: TimerHeaderProps) {
-  const minutes = Math.floor(totalTime / 60);
-  const seconds = totalTime % 60;
 
   return (
     <div className="timer-header">
@@ -38,7 +37,7 @@ export function TimerHeader({
           <span>{workout.restSeconds}s rest</span>
           <span>{totalRounds} rounds</span>
           <span>
-            {minutes}:{String(seconds).padStart(2, "0")} total time
+            {formatTime(totalTime)} total time
           </span>
         </div>
       </div>
@@ -47,9 +46,9 @@ export function TimerHeader({
         type="button"
         className="timer-menu-button"
         aria-label="Edit workout"
-        onClick={onEdit}
-      >
-        ···
+        onClick={onRestart}
+      > 
+        ↻
       </button>
     </div>
   );

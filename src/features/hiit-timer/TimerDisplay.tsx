@@ -1,5 +1,6 @@
 import type { HiitWorkout } from "../../models/workout";
 import { TIMER_PHASE, type TimerState } from "../../models/timer";
+import { formatTime, formatTimePadStart } from "../../utils/time";
 
 interface TimerDisplayProps {
   workout: HiitWorkout;
@@ -13,19 +14,39 @@ export function TimerDisplay({ workout, timer }: TimerDisplayProps) {
     <div className="timer-display">
       <h3 className="current-exercise-name">{exerciseName}</h3>
 
-      <strong>{String(timer.remainingSeconds).padStart(2, "0")}</strong>
+      <strong>{formatTimePadStart(timer.remainingSeconds)}</strong>
 
       <span className="timer-unit">SECONDS</span>
-      {/* <span className="timer-unit">Remaining {String(timer.totalTimeLeft).padStart(2, "0")}</span> */}
-      <span className="timer-unit">Remaining {Math.floor(timer.totalTimeLeft / 60)}:{timer.totalTimeLeft % 60 < 10 ? "0" : ""}{timer.totalTimeLeft % 60}</span>
+
+      <span className="timer-unit">
+        Remaining {formatTime(timer.totalTimeLeft)}
+      </span>
     </div>
   );
 }
 
 function getExerciseName(workout: HiitWorkout, timer: TimerState): string {
-  if (timer.phase === TIMER_PHASE.COUNTDOWN) {
+  if (timer.phase === TIMER_PHASE.IDLE) {
     return "Get ready";
   }
+
+  if (timer.phase === TIMER_PHASE.COUNTDOWN ||
+    (timer.phase === TIMER_PHASE.FREEZE &&
+      timer.previousPhase === TIMER_PHASE.COUNTDOWN)
+  ) {
+    return `Get ready, Next: ${workout.exercises[0]?.name ?? "Workout"}`;
+  }
+
+  if (timer.phase === TIMER_PHASE.FREEZE &&
+    timer.previousPhase === TIMER_PHASE.REST) {
+    return `Paused, Next: ${getNextExerciseName(workout, timer)}`;
+  }
+
+  if (timer.phase === TIMER_PHASE.FREEZE &&
+    timer.previousPhase === TIMER_PHASE.WORK) {
+    return `Paused, ${workout.exercises[timer.currentExercise]?.name ?? "Workout"}`;
+  }
+
   if (timer.phase === TIMER_PHASE.FINISHED) {
     return "Workout complete";
   }

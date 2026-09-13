@@ -1,10 +1,10 @@
 export const routes = {
-  home: "/",
-  hiit: "/hiit",
+  home: "/hiit-training-planner/",
+  hiit: "/hiit-training-planner/hiit",
   hiitCreate: "/hiit/create",
   hiitTimer: "/hiit/timer",
-  rounds: "/rounds",
-  sets: "/sets",
+  rounds: "/hiit-training-planner/rounds",
+  sets: "/hiit-training-planner/sets",
 } as const;
 
 export type AppRoute = (typeof routes)[keyof typeof routes];

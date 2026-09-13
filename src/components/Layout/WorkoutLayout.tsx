@@ -8,8 +8,8 @@ interface WorkoutLayoutProps {
 export function WorkoutLayout({ children }: WorkoutLayoutProps) {
   return (
     <>
-      <section className="hiit-page">
-        <div className="hiit-layout">
+      <section className="workout-page">
+        <div className="workout-layout">
           {children}
         </div>
       </section>

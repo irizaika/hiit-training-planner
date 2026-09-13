@@ -148,7 +148,39 @@
   gap: var(--space-2);
   overflow-x: auto;
   padding-bottom: var(--space-2);
+  
+  max-height: 300px;
+  overflow-y: auto;
+  scroll-behavior: smooth;
 }
+
+
+
+/* Firexfox, Chrome, Edge, Safari */
+
+.exercise-list {
+  /* Firefox */
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-border-hover) transparent;
+}
+
+.exercise-list::-webkit-scrollbar {
+  height: 6px;
+}
+
+.exercise-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.exercise-list::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: var(--color-border-hover);
+}
+
+.exercise-list::-webkit-scrollbar-thumb:hover {
+  background: var(--color-text-muted);
+}
+
 
 .exercise-item {
   display: flex;

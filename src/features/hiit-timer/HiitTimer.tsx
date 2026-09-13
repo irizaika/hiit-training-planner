@@ -10,10 +10,9 @@ import { TimerControls } from "./TimerControls";
 
 interface HiitTimerProps {
   selectedWorkout: HiitWorkout;
-  onEdit: () => void;
 }
 
-export function HiitTimer({ selectedWorkout, onEdit }: HiitTimerProps) {
+export function HiitTimer({ selectedWorkout }: HiitTimerProps) {
   const { timer, start, pause, resume } = useTimer({
     workout: selectedWorkout,
   });
@@ -65,9 +64,11 @@ export function HiitTimer({ selectedWorkout, onEdit }: HiitTimerProps) {
         totalRounds={timer.totalRounds}
         totalTime={selectedWorkout.rounds * selectedWorkout.exercises.length * selectedWorkout.workSeconds +
           selectedWorkout.rounds * selectedWorkout.exercises.length * selectedWorkout.restSeconds - selectedWorkout.restSeconds}
-          
-  onEdit={onEdit}
-/>
+        onRestart={() => {
+          pause();
+          start();
+        }}
+        />
 
       <TimerDisplay
         workout={selectedWorkout}

@@ -64,7 +64,7 @@ export function AddHiitWorkoutModal({
     const now = new Date().toISOString();
 
     const newWorkout: HiitWorkout = {
-      id: workout?.id ?? Date.now(),
+      id: workout?.id ?? 0,
       name: trimmedName,
       type: "hiit",
 

@@ -107,7 +107,7 @@ function createInitialTimerState(workout: HiitWorkout): TimerState {
   return {
     phase: TIMER_PHASE.IDLE,
     previousPhase: null,
-    remainingSeconds: workout.workSeconds,
+    remainingSeconds: 3,
     currentRound: 1,
     totalRounds: workout.rounds,
     currentExercise: 0,

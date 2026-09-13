@@ -1,3 +1,5 @@
+import { useEffect, useRef } from "react";
+
 import type { Exercise } from "../../models/exercise";
 import { TIMER_PHASE, type TimerPhase } from "../../models/timer";
 
@@ -16,6 +18,21 @@ export function ExerciseProgress({
   phase,
   isExerciseCompleted,
 }: ExerciseProgressProps) {
+  const exerciseRefs = useRef<(HTMLDivElement | null)[]>([]);
+
+  useEffect(() => {
+    const currentElement = exerciseRefs.current[currentExercise];
+
+    if (!currentElement) {
+      return;
+    }
+
+    currentElement.scrollIntoView({
+      behavior: "smooth",
+      block: "nearest",
+    });
+  }, [currentExercise]);
+
   return (
     <div className="exercise-progress">
       <div className="exercise-progress-header">
@@ -35,6 +52,9 @@ export function ExerciseProgress({
           return (
             <div
               key={exercise.id}
+              ref={(element) => {
+                exerciseRefs.current[index] = element;
+              }}
               className={[
                 "exercise-item",
                 isCurrent && "is-current",
