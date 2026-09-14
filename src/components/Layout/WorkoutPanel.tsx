@@ -5,16 +5,12 @@ interface WorkoutPanelProps {
   count: number;
   children: ReactNode;
   onCreate?: () => void;
-  onImport?: () => void;
-  onExport?: () => void;
 }
 export function WorkoutPanel({
   name,
   count,
   children,
   onCreate,
-  onImport,
-  onExport,
 }: WorkoutPanelProps) {
   return (
     <section className="workout-panel">
@@ -27,14 +23,8 @@ export function WorkoutPanel({
       </div>
       <div className="workout-list-container">{children}</div>
       <div className="workout-actions">
-        <button type="button" className="primary-button" onClick={onCreate}>
+        <button type="button" className="secondary-button" onClick={onCreate}>
           + Add workout
-        </button>
-        <button type="button" className="secondary-button" onClick={onImport}>
-          ↑ Bring workouts
-        </button>
-        <button type="button" className="secondary-button" onClick={onExport}>
-          ↓ Save backup
         </button>
       </div>
     </section>

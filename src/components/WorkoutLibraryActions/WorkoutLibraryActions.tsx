@@ -49,7 +49,9 @@ export function WorkoutLibraryActions() {
         <p className="eyebrow">YOUR WORKOUTS</p>
 
         <p className="workout-library-description">
-          Bring workouts from a saved file, or save a backup of your workouts.
+          Your workouts are saved automatically in this browser. Clearing
+          browser data may remove them, so export a backup to keep them safe or
+          transfer them to another device.
         </p>
       </div>
 

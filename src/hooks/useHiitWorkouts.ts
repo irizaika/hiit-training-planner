@@ -1,8 +1,6 @@
 import { useState } from "react";
 
 import type { HiitWorkout } from "../models/workout";
-import { exportWorkout } from "../services/exportWorkout";
-import { importWorkout } from "../services/importWorkout";
 import { getNextId } from "../utils/id";
 import { useWorkouts } from "../context/useWorkout";
 
@@ -121,44 +119,6 @@ export function useHiitWorkouts() {
     setIsEditWorkoutOpen(false);
   };
 
-  const importHiitWorkouts = () => {
-    const input = document.createElement("input");
-
-    input.type = "file";
-    input.accept = ".json,application/json";
-
-    input.onchange = async () => {
-      const file = input.files?.[0];
-
-      if (!file) {
-        return;
-      }
-
-      try {
-        const importedWorkouts = await importWorkout(file, "hiit");
-
-        if (importedWorkouts.some((workout) => workout.type !== "hiit")) {
-          throw new Error("This is not a HIIT workout.");
-        }
-
-        setHiitWorkouts(importedWorkouts as HiitWorkout[]);
-        setSelectedWorkoutId(importedWorkouts[0]?.id ?? null);
-      } catch (error) {
-        console.error(error);
-
-        window.alert(
-          "Could not import workout. Please select a valid workout JSON file.",
-        );
-      }
-    };
-
-    input.click();
-  };
-
-  const exportHiitWorkouts = () => {
-    exportWorkout(hiitWorkouts, "hiit");
-  };
-
   return {
     hiitWorkouts,
     selectedWorkout,
@@ -177,8 +137,5 @@ export function useHiitWorkouts() {
     closeCreateModal,
     openEditModal,
     closeEditModal,
-
-    importHiitWorkouts,
-    exportHiitWorkouts,
   };
 }

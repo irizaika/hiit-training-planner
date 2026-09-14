@@ -27,9 +27,6 @@ export function HiitTimerPage() {
     closeCreateModal,
     openEditModal,
     closeEditModal,
-
-    importHiitWorkouts,
-    exportHiitWorkouts,
   } = useHiitWorkouts();
 
   return (
@@ -39,8 +36,6 @@ export function HiitTimerPage() {
           name="HIIT"
           count={hiitWorkouts.length}
           onCreate={openCreateModal}
-          onImport={importHiitWorkouts}
-          onExport={exportHiitWorkouts}
         >
           <WorkoutList
             workouts={hiitWorkouts}

@@ -1,23 +1,9 @@
-import type {  Workouts, WorkoutType } from "../models/workout";
+import type {  Workouts } from "../models/workout";
 
 export function exportWorkouts(workouts: Workouts) {
   downloadWorkouts(workouts);
 }
 
-export function exportWorkout<T extends WorkoutType>(
-  workouts: Workouts[T],
-  workoutType: T,
-) {
-  const workoutExport: Workouts = {
-    hiit: [],
-    rounds: [],
-    sets: [],
-  };
-
-  workoutExport[workoutType] = workouts;
-
-  downloadWorkouts(workoutExport);
-}
 
 function downloadWorkouts(workouts: Workouts) {
   const json = JSON.stringify(workouts, null, 2);

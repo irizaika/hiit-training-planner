@@ -1,4 +1,4 @@
-import type { HiitWorkout, RoundWorkout, SetWorkout, Workout, Workouts, WorkoutType,} 
+import type { HiitWorkout, RoundWorkout, SetWorkout, Workouts} 
 from "../models/workout";
 
 export async function importWorkouts(file: File): Promise<Workouts> {
@@ -10,15 +10,6 @@ export async function importWorkouts(file: File): Promise<Workouts> {
   }
 
   return data;
-}
-
-export async function importWorkout(
-  file: File,
-  workoutType: WorkoutType,
-): Promise<Workout[]> {
-  const workouts = await importWorkouts(file);
-
-  return workouts[workoutType];
 }
 
 function isWorkouts(data: unknown): data is Workouts {
