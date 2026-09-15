@@ -1,6 +1,7 @@
 import { useState } from "react";
 import type { HiitWorkout } from "../../models/workout";
 import "./AddHiitWorkoutModal.css";
+import { DurationField } from "./DurationField";
 
 interface AddHiitWorkoutModalProps {
   workout?: HiitWorkout;
@@ -14,8 +15,21 @@ export function AddHiitWorkoutModal({
   onCreate,
 }: AddHiitWorkoutModalProps) {
   const [name, setName] = useState(workout?.name ?? "");
+
   const [workSeconds, setWorkSeconds] = useState(workout?.workSeconds ?? 30);
+
+  const [restEnabled, setRestEnabled] = useState(workout?.restEnabled ?? true);
+
   const [restSeconds, setRestSeconds] = useState(workout?.restSeconds ?? 10);
+
+  const [roundRestEnabled, setRoundRestEnabled] = useState(
+    workout?.roundRestEnabled ?? true,
+  );
+
+  const [roundRestSeconds, setRoundRestSeconds] = useState(
+    workout?.roundRestSeconds ?? 60,
+  );
+
   const [rounds, setRounds] = useState(workout?.rounds ?? 4);
 
   const [exerciseNames, setExerciseNames] = useState<string[]>(
@@ -72,9 +86,13 @@ export function AddHiitWorkoutModal({
       updatedAt: now,
 
       workSeconds,
+      restEnabled,
       restSeconds,
-      rounds,
 
+      roundRestEnabled,
+      roundRestSeconds,
+
+      rounds,
       exercises,
     };
 
@@ -100,12 +118,14 @@ export function AddHiitWorkoutModal({
         <div className="modal-header">
           <div>
             <p className="eyebrow">HIIT</p>
-            <h2>{workout ? "Edit workout" : "Add workout"}</h2>
+            <h2 id="add-hiit-workout-title">
+              {workout ? "Edit workout" : "Add workout"}
+            </h2>
           </div>
 
           <button
             type="button"
-            className="modal-close-button"
+            className="remove-close-button"
             onClick={onClose}
             aria-label="Close"
           >
@@ -114,52 +134,22 @@ export function AddHiitWorkoutModal({
         </div>
 
         <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label htmlFor="workout-name">Workout name</label>
-
-            <input
-              id="workout-name"
-              type="text"
-              value={name}
-              onChange={(event) => setName(event.target.value)}
-              placeholder="e.g. Morning HIIT"
-              required
-              autoFocus
-            />
-          </div>
-
-          <div className="form-row">
-            <div className="form-group">
-              <label htmlFor="work-seconds">Work</label>
+          <div className="form-row workout-main-row">
+            <div className="form-group workout-name-field">
+              <label htmlFor="workout-name">Workout name</label>
 
               <input
-                id="work-seconds"
-                type="number"
-                min="1"
-                value={workSeconds}
-                onChange={(event) => setWorkSeconds(Number(event.target.value))}
+                id="workout-name"
+                type="text"
+                value={name}
+                onChange={(event) => setName(event.target.value)}
+                placeholder="e.g. Morning HIIT"
                 required
+                autoFocus
               />
-
-              <span className="input-suffix">seconds</span>
             </div>
 
-            <div className="form-group">
-              <label htmlFor="rest-seconds">Rest</label>
-
-              <input
-                id="rest-seconds"
-                type="number"
-                min="0"
-                value={restSeconds}
-                onChange={(event) => setRestSeconds(Number(event.target.value))}
-                required
-              />
-
-              <span className="input-suffix">seconds</span>
-            </div>
-
-            <div className="form-group">
+            <div className="form-group rounds-field">
               <label htmlFor="rounds">Rounds</label>
 
               <input
@@ -173,12 +163,48 @@ export function AddHiitWorkoutModal({
             </div>
           </div>
 
+          <div className="form-row timing-row">
+            <DurationField
+              id="work-seconds"
+              label="Work"
+              value={workSeconds}
+              onChange={setWorkSeconds}
+              required
+            />
+
+            <DurationField
+              id="rest-seconds"
+              label="Rest after exercise"
+              value={restSeconds}
+              onChange={setRestSeconds}
+              disabled={!restEnabled}
+              required={restEnabled}
+              checkbox={{
+                checked: restEnabled,
+                onChange: setRestEnabled,
+                label: "Rest after exercise",
+              }}
+            />
+
+            <DurationField
+              id="round-rest-seconds"
+              label="Rest after round"
+              value={roundRestSeconds}
+              onChange={setRoundRestSeconds}
+              disabled={!roundRestEnabled}
+              required={roundRestEnabled}
+              checkbox={{
+                checked: roundRestEnabled,
+                onChange: setRoundRestEnabled,
+                label: "Rest after round",
+              }}
+            />
+          </div>
+
           <div className="form-section">
             <div className="form-section-header">
-              <div>
-                <label>Exercises</label>
-                <p>Add the exercises in the order you want to perform them.</p>
-              </div>
+              <h3>Exercises</h3>
+              <p>Add the exercises in the order you want to perform them.</p>
             </div>
 
             <div className="exercise-form-list">
@@ -199,7 +225,7 @@ export function AddHiitWorkoutModal({
                   {exerciseNames.length > 1 && (
                     <button
                       type="button"
-                      className="remove-exercise-button"
+                      className="remove-close-button"
                       onClick={() => handleRemoveExercise(index)}
                       aria-label={`Remove exercise ${index + 1}`}
                     >

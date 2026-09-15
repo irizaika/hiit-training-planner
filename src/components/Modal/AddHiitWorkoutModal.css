@@ -6,129 +6,208 @@
   display: grid;
   place-items: center;
 
-  padding: var(--space-5);
-
-  background: rgb(0 0 0 / 0.45);
+  padding: var(--space-3);
+  background: rgb(0 0 0 / 0.4);
 }
 
 .modal {
-  width: 100%;
-  max-width: 620px;
-  max-height: min(760px, calc(100vh - 40px));
-
+  width: min(100%, 620px);
+  max-height: calc(100dvh - 24px);
   overflow-y: auto;
 
-  padding: var(--space-8);
-
+  padding: var(--space-6);
   border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-md);
 
-  background: var(--color-bg);
+  background: var(--color-surface);
   color: var(--color-text);
-
-  box-shadow: 0 20px 60px rgb(0 0 0 / 0.18);
+  box-shadow: 0 16px 40px rgb(0 0 0 / 0.14);
 }
 
 .modal-header {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  gap: var(--space-4);
-
-  margin-bottom: var(--space-8);
-}
-
-.modal-header h2 {
-  margin-top: var(--space-1);
-  font-size: 28px;
-}
-
-.modal-close-button {
-  width: 36px;
-  height: 36px;
-
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-sm);
-
-  background: transparent;
-  color: var(--color-text-muted);
-
-  font-size: 24px;
-  line-height: 1;
-
-  cursor: pointer;
-}
-
-.modal-close-button:hover {
-  background: var(--color-surface);
-  color: var(--color-text);
-}
-
-.form-group {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-2);
-
+  gap: var(--space-3);
   margin-bottom: var(--space-5);
 }
 
-.form-group label,
-.form-section > .form-section-header label {
-  font-size: var(--font-size-sm);
-  font-weight: 700;
+.modal-header h2 {
+  margin: 3px 0 0;
+  font-size: 20px;
+  line-height: 1.3;
 }
 
-.form-group input {
-  width: 100%;
-  min-height: 44px;
+/* General grid rows */
 
+.form-row {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.workout-main-row {
+  grid-template-columns: minmax(0, 1fr) 100px;
+}
+
+.timing-row {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+/* Form fields */
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+
+  min-width: 0;
+  margin-bottom: 15px;
+}
+
+.form-group > label {
+  min-height: 18px;
+
+  color: var(--color-text);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+}
+
+.form-group > input {
+  width: 100%;
+  min-width: 0;
+  min-height: 40px;
   padding: 0 var(--space-3);
 
   border: 1px solid var(--color-border);
   border-radius: var(--radius-sm);
 
-  background: var(--color-bg);
+  background: var(--color-surface);
   color: var(--color-text);
-
   font: inherit;
 }
 
-.form-group input:focus {
+.form-group > input:focus {
   outline: none;
-  border-color: var(--color-text);
+  border-color: var(--color-border-hover);
+  background: var(--color-surface-hover);
 }
 
-.form-row {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: var(--space-3);
+/* Duration fields */
+
+.input-with-suffix {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+
+  min-width: 0;
+  min-height: 40px;
+  padding: 0 var(--space-3);
+
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+
+  background: var(--color-surface);
 }
 
-.input-suffix {
-  margin-top: -8px;
+.input-with-suffix:focus-within {
+  border-color: var(--color-border-hover);
+  background: var(--color-surface-hover);
+}
 
-  color: var(--color-text-subtle);
+.input-with-suffix input {
+  width: 100%;
+  min-width: 0;
+  min-height: 34px;
+  padding: 0;
+
+  border: 0;
+  outline: 0;
+
+  background: transparent;
+  color: var(--color-text);
+  font: inherit;
+}
+
+.input-with-suffix span {
+  flex-shrink: 0;
+  color: var(--color-text-muted);
   font-size: var(--font-size-xs);
 }
 
-.form-section {
-  margin-top: var(--space-6);
-  padding-top: var(--space-6);
+/* Hide number spinners in Chrome, Edge, Safari and Opera */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  margin: 0;
+  appearance: none;
+}
+/* Hide number spinners in Firefox */
+input[type="number"] {
+  appearance: textfield;
+}
+/* Ensure disabled number inputs do not show spinner controls */
+input[type="number"]:disabled {
+  appearance: textfield;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+.input-with-suffix:has(input:disabled) {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+.input-with-suffix input:disabled {
+  cursor: not-allowed;
+}
 
+/* Checkbox labels */
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+
+  min-height: 18px;
+  overflow: hidden;
+
+  color: var(--color-text);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.checkbox-label span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.checkbox-label input {
+  width: 14px;
+  height: 14px;
+  margin: 0;
+  flex-shrink: 0;
+  accent-color: var(--color-text);
+}
+
+/* Exercises */
+
+.form-section {
+  margin-top: var(--space-3);
+  padding-top: var(--space-4);
   border-top: 1px solid var(--color-border);
 }
 
 .form-section-header {
-  margin-bottom: var(--space-4);
+  margin-bottom: var(--space-2);
+}
+
+.form-section-header h3 {
+  margin: 0;
+  font-size: var(--font-size-sm);
 }
 
 .form-section-header p {
-  margin-top: var(--space-1);
-
+  margin: var(--space-1) 0 0;
   color: var(--color-text-muted);
-  font-size: var(--font-size-sm);
-  line-height: 1.5;
+  font-size: var(--font-size-xs);
 }
 
 .exercise-form-list {
@@ -145,61 +224,37 @@
 
 .exercise-number {
   display: grid;
-
-  width: 28px;
-  height: 28px;
-
-  flex-shrink: 0;
-
   place-items: center;
 
-  border-radius: var(--radius-full);
+  width: 26px;
+  height: 26px;
+  flex-shrink: 0;
 
+  border-radius: var(--radius-full);
   background: var(--color-surface);
   color: var(--color-text-muted);
 
   font-size: var(--font-size-xs);
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .exercise-form-row input {
   flex: 1;
   min-width: 0;
-  min-height: 44px;
-
+  min-height: 40px;
   padding: 0 var(--space-3);
-
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-sm);
-
-  background: var(--color-bg);
-  color: var(--color-text);
-
-  font: inherit;
 }
 
-.exercise-form-row input:focus {
-  outline: none;
-  border-color: var(--color-text);
-}
+/* Buttons */
 
-.remove-exercise-button {
-  width: 36px;
-  height: 36px;
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
 
-  flex-shrink: 0;
-
-  border: 0;
-  background: transparent;
-
-  color: var(--color-text-muted);
-
-  font-size: 20px;
-  cursor: pointer;
-}
-
-.remove-exercise-button:hover {
-  color: var(--color-text);
+  margin-top: var(--space-3);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--color-border);
 }
 
 .add-exercise-button {
@@ -207,13 +262,11 @@
 
   border: 0;
   background: transparent;
-
   color: var(--color-text-muted);
 
   font: inherit;
   font-size: var(--font-size-sm);
   font-weight: 700;
-
   cursor: pointer;
 }
 
@@ -221,16 +274,24 @@
   color: var(--color-text);
 }
 
-.modal-actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: var(--space-3);
+.remove-close-button {
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
 
-  margin-top: var(--space-8);
-  padding-top: var(--space-5);
+  border: 0;
+  background: transparent;
+  color: var(--color-text-muted);
 
-  border-top: 1px solid var(--color-border);
+  font-size: 20px;
+  cursor: pointer;
 }
+
+.remove-close-button:hover {
+  color: var(--color-text);
+}
+
+/* Mobile layout */
 
 @media (max-width: 600px) {
   .modal-backdrop {
@@ -239,21 +300,19 @@
   }
 
   .modal {
-    max-height: 90vh;
-
-    padding: var(--space-6) var(--space-5);
-
-    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    max-height: 92dvh;
+    padding: var(--space-5);
+    border-radius: var(--radius-md) var(--radius-md) 0 0;
   }
 
-  .form-row {
-    grid-template-columns: 1fr 1fr 1fr;
-  }
-}
-
-@media (max-width: 420px) {
-  .form-row {
+  .workout-main-row,
+  .timing-row {
     grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .checkbox-label {
+    font-size: var(--font-size-sm);
   }
 
   .modal-actions {

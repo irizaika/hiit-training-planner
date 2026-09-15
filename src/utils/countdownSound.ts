@@ -13,7 +13,8 @@ export function playCountdownBeep(
 ) {
   if (
     phase === TIMER_PHASE.COUNTDOWN ||
-    phase === TIMER_PHASE.REST
+    phase === TIMER_PHASE.REST ||
+    phase === TIMER_PHASE.ROUND_REST
   ) {
     playCountdown(secondsLeft);
   } else if (phase === TIMER_PHASE.WORK) {

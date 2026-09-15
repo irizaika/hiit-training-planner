@@ -1,5 +1,5 @@
 import type { HiitWorkout } from "../../models/workout";
-import { TIMER_PHASE } from "../../models/timer";
+import { TIMER_PHASE, type TimerPhase } from "../../models/timer";
 import { useTimer } from "../../hooks/useTimer";
 import "./HiitTimer.css";
 import { TimerHeader } from "./TimerHeader";
@@ -7,6 +7,7 @@ import { TimerDisplay } from "./TimerDisplay";
 import { ExerciseProgress } from "./ExerciseProgress";
 import { WorkoutProgress } from "./WorkoutProgress";
 import { TimerControls } from "./TimerControls";
+import { calculateTotalTime } from "../../utils/time";
 
 interface HiitTimerProps {
   selectedWorkout: HiitWorkout;
@@ -20,18 +21,14 @@ export function HiitTimer({ selectedWorkout }: HiitTimerProps) {
   const totalWorkPeriods =
     selectedWorkout.exercises.length * selectedWorkout.rounds;
 
-  const completedWorkPeriods =
-    (timer.currentRound - 1) * selectedWorkout.exercises.length +
-    (timer.phase === TIMER_PHASE.REST ||
-    timer.phase === TIMER_PHASE.FINISHED ||
-    (timer.phase === TIMER_PHASE.FREEZE &&
-      timer.previousPhase === TIMER_PHASE.REST)
-      ? timer.currentExercise + 1
-      : timer.phase === TIMER_PHASE.WORK ||
-          (timer.phase === TIMER_PHASE.FREEZE &&
-            timer.previousPhase === TIMER_PHASE.WORK)
-        ? timer.currentExercise
-        : 0);
+
+  const completedWorkPeriods = getCompletedWorkPeriods(
+    timer.currentRound,
+    timer.currentExercise,
+    timer.phase,
+    timer.previousPhase,
+    selectedWorkout.exercises.length,
+  );
 
   const progress =
     totalWorkPeriods > 0
@@ -48,8 +45,10 @@ export function HiitTimer({ selectedWorkout }: HiitTimerProps) {
 
     const completedExerciseIndex =
       timer.phase === TIMER_PHASE.REST ||
+      timer.phase === TIMER_PHASE.ROUND_REST ||
       (timer.phase === TIMER_PHASE.FREEZE &&
-        timer.previousPhase === TIMER_PHASE.REST)
+        (timer.previousPhase === TIMER_PHASE.REST ||
+          timer.previousPhase === TIMER_PHASE.ROUND_REST))
         ? timer.currentExercise
         : timer.currentExercise - 1;
 
@@ -62,18 +61,14 @@ export function HiitTimer({ selectedWorkout }: HiitTimerProps) {
         workout={selectedWorkout}
         phase={timer.phase}
         totalRounds={timer.totalRounds}
-        totalTime={selectedWorkout.rounds * selectedWorkout.exercises.length * selectedWorkout.workSeconds +
-          selectedWorkout.rounds * selectedWorkout.exercises.length * selectedWorkout.restSeconds - selectedWorkout.restSeconds}
+        totalTime={calculateTotalTime(selectedWorkout)}
         onRestart={() => {
           pause();
           start();
         }}
-        />
-
-      <TimerDisplay
-        workout={selectedWorkout}
-        timer={timer}
       />
+
+      <TimerDisplay workout={selectedWorkout} timer={timer} />
 
       <ExerciseProgress
         exercises={selectedWorkout.exercises}
@@ -97,4 +92,47 @@ export function HiitTimer({ selectedWorkout }: HiitTimerProps) {
       />
     </div>
   );
+}
+
+function isExerciseCompletedDuringPhase(
+  phase: TimerPhase,
+  previousPhase: TimerPhase | null,
+): boolean {
+  if (
+    phase === TIMER_PHASE.REST ||
+    phase === TIMER_PHASE.ROUND_REST ||
+    phase === TIMER_PHASE.FINISHED
+  ) {
+    return true;
+  }
+
+  if (phase === TIMER_PHASE.FREEZE) {
+    return (
+      previousPhase === TIMER_PHASE.REST ||
+      previousPhase === TIMER_PHASE.ROUND_REST
+    );
+  }
+
+  return false;
+}
+
+function getCompletedWorkPeriods(
+  currentRound: number,
+  currentExercise: number,
+  phase: TimerPhase,
+  previousPhase: TimerPhase | null,
+  exercisesPerRound: number,
+): number {
+  const completedPreviousRounds = (currentRound - 1) * exercisesPerRound;
+
+  const currentExerciseIsCompleted = isExerciseCompletedDuringPhase(
+    phase,
+    previousPhase,
+  );
+
+  const completedExercisesInCurrentRound = currentExerciseIsCompleted
+    ? currentExercise + 1
+    : currentExercise;
+
+  return completedPreviousRounds + completedExercisesInCurrentRound;
 }

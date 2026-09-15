@@ -1,5 +1,5 @@
 import type { HiitWorkout } from "../../models/workout";
-import type { TimerPhase } from "../../models/timer";
+import { TIMER_PHASE, type TimerPhase } from "../../models/timer";
 import {formatTime} from "../../utils/time";
 
 interface TimerHeaderProps {
@@ -22,12 +22,13 @@ export function TimerHeader({
     <div className="timer-header">
       <div className="timer-workout-details">
         <p className="eyebrow">
-          {phase === "idle" && "READY TO TRAIN"}
-          {phase === "countdown" && "GET READY"}
-          {phase === "work" && "WORK"}
-          {phase === "rest" && "REST"}
-          {phase === "freeze" && "PAUSED"}
-          {phase === "finished" && "WORKOUT COMPLETE"}
+          {phase === TIMER_PHASE.IDLE && "READY TO TRAIN"}
+          {phase === TIMER_PHASE.COUNTDOWN && "GET READY"}
+          {phase === TIMER_PHASE.WORK && "WORK"}
+          {phase === TIMER_PHASE.REST && "REST"}
+          {phase === TIMER_PHASE.ROUND_REST && "ROUND COMPLETED, REST"}
+          {phase === TIMER_PHASE.FREEZE && "PAUSED"}
+          {phase === TIMER_PHASE.FINISHED && "WORKOUT COMPLETE"}
         </p>
 
         <h4>{workout.name}</h4>

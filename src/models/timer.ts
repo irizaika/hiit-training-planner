@@ -3,6 +3,7 @@ export const TIMER_PHASE = {
   COUNTDOWN: "countdown",
   WORK: "work",
   REST: "rest",
+  ROUND_REST: "round-rest",
   FREEZE: "freeze",
   FINISHED: "finished",
 } as const;
@@ -13,7 +14,8 @@ export type TimerPhase =
 export type ResumableTimerPhase =
   | typeof TIMER_PHASE.COUNTDOWN
   | typeof TIMER_PHASE.WORK
-  | typeof TIMER_PHASE.REST;
+  | typeof TIMER_PHASE.REST
+  | typeof TIMER_PHASE.ROUND_REST;
 
 export interface TimerState {
   phase: TimerPhase;

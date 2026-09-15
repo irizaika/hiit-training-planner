@@ -13,8 +13,17 @@ export interface BaseWorkout {
 export interface HiitWorkout extends BaseWorkout {
   type: "hiit";
   exercises: Exercise[];
+
   workSeconds: number;
+
+  // Pause between exercises
   restSeconds: number;
+  restEnabled: boolean;
+
+  // Pause between rounds
+  roundRestSeconds: number;
+  roundRestEnabled: boolean;
+
   rounds: number;
 }
 

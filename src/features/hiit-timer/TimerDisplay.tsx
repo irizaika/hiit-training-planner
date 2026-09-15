@@ -38,7 +38,7 @@ function getExerciseName(workout: HiitWorkout, timer: TimerState): string {
   }
 
   if (timer.phase === TIMER_PHASE.FREEZE &&
-    timer.previousPhase === TIMER_PHASE.REST) {
+    (timer.previousPhase === TIMER_PHASE.REST || timer.previousPhase === TIMER_PHASE.ROUND_REST)) {
     return `Paused, Next: ${getNextExerciseName(workout, timer)}`;
   }
 
@@ -51,7 +51,7 @@ function getExerciseName(workout: HiitWorkout, timer: TimerState): string {
     return "Workout complete";
   }
 
-  if (timer.phase === TIMER_PHASE.REST) {
+  if (timer.phase === TIMER_PHASE.REST || timer.phase === TIMER_PHASE.ROUND_REST) {
     return `Next: ${getNextExerciseName(workout, timer)}`;
   }
 

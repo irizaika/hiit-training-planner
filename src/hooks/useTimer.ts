@@ -5,6 +5,7 @@ import {
   type TimerState,
 } from "../models/timer";
 import { playCountdownBeep } from "../utils/countdownSound";
+import { calculateTotalTime } from "../utils/time"
 
 interface UseTimerProps {
   workout: HiitWorkout;
@@ -24,9 +25,7 @@ export function useTimer({ workout }: UseTimerProps) {
       totalRounds: workout.rounds,
       currentExercise: 0,
       totalExercises: workout.exercises.length,
-      totalTimeLeft:
-        workout.rounds * workout.exercises.length * workout.workSeconds + 
-        workout.rounds * workout.exercises.length * workout.restSeconds - workout.restSeconds
+      totalTimeLeft: calculateTotalTime(workout)
     });
   };
 
@@ -71,7 +70,8 @@ export function useTimer({ workout }: UseTimerProps) {
 
         const shouldDecrementTotalTime =
           current.phase === TIMER_PHASE.WORK ||
-          current.phase === TIMER_PHASE.REST;
+          current.phase === TIMER_PHASE.REST ||
+          current.phase === TIMER_PHASE.ROUND_REST ;
 
         if (current.remainingSeconds > 1) {
           return {
@@ -119,9 +119,7 @@ function createInitialTimerState(workout: HiitWorkout): TimerState {
     totalRounds: workout.rounds,
     currentExercise: 0,
     totalExercises: workout.exercises.length,
-    totalTimeLeft:
-        workout.rounds * workout.exercises.length * workout.workSeconds + 
-        workout.rounds * workout.exercises.length * workout.restSeconds - workout.restSeconds
+    totalTimeLeft: calculateTotalTime(workout)
   };
 }
 
@@ -131,17 +129,16 @@ function isResumablePhase(
   return (
     phase === TIMER_PHASE.COUNTDOWN ||
     phase === TIMER_PHASE.WORK ||
-    phase === TIMER_PHASE.REST
+    phase === TIMER_PHASE.REST ||
+    phase === TIMER_PHASE.ROUND_REST 
   );
 }
-
 
 
 function getNextTimerState(
   current: TimerState,
   workout: HiitWorkout,
 ): TimerState {
-  // Countdown → first exercise
   if (current.phase === TIMER_PHASE.COUNTDOWN) {
     return {
       ...current,
@@ -151,25 +148,84 @@ function getNextTimerState(
     };
   }
 
-  // Work → rest or finished
   if (current.phase === TIMER_PHASE.WORK) {
-    const isLastExercise =
-      current.currentExercise >= workout.exercises.length - 1;
+    return getNextAfterWork(current, workout);
+  }
 
-    const isLastRound =
-      current.currentRound >= workout.rounds;
+if (current.phase === TIMER_PHASE.REST) {
+  const isEndOfRound =
+    current.currentExercise === current.totalExercises - 1;
 
-    // Last exercise of last round → finished immediately
-    if (isLastExercise && isLastRound) {
+  if (isEndOfRound) {
+    return {
+      ...current,
+      phase: TIMER_PHASE.WORK,
+      remainingSeconds: workout.workSeconds,
+      currentExercise: 0,
+      currentRound: current.currentRound + 1,
+    };
+  }
+
+  return {
+    ...current,
+    phase: TIMER_PHASE.WORK,
+    remainingSeconds: workout.workSeconds,
+    currentExercise: current.currentExercise + 1,
+  };
+}
+
+  if (current.phase === TIMER_PHASE.ROUND_REST) {
+    return {
+      ...current,
+      phase: TIMER_PHASE.WORK,
+      remainingSeconds: workout.workSeconds,
+      currentExercise: 0,
+      currentRound: current.currentRound + 1,
+    };
+  }
+
+  return current;
+}
+
+
+function getNextAfterWork(
+  current: TimerState,
+  workout: HiitWorkout,
+): TimerState {
+  const isLastExercise =
+    current.currentExercise >= workout.exercises.length - 1;
+
+  const isLastRound = current.currentRound >= workout.rounds;
+
+  if (isLastExercise && isLastRound) {
+    return {
+      ...current,
+      phase: TIMER_PHASE.FINISHED,
+      remainingSeconds: 0,
+    };
+  }
+
+  if (isLastExercise) {
+    if (workout.roundRestEnabled && workout.roundRestSeconds > 0) {
       return {
         ...current,
-        phase: TIMER_PHASE.FINISHED,
-        remainingSeconds: 0,
-      //  totalTimeLeft: 0,
+        phase: TIMER_PHASE.ROUND_REST,
+        remainingSeconds: workout.roundRestSeconds,
       };
     }
 
-    // Otherwise → rest
+    if (workout.restEnabled && workout.restSeconds > 0) {
+      return {
+        ...current,
+        phase: TIMER_PHASE.REST,
+        remainingSeconds: workout.restSeconds,
+      };
+    }
+
+    return startNextRound(current, workout);
+  }
+
+  if (workout.restEnabled && workout.restSeconds > 0) {
     return {
       ...current,
       phase: TIMER_PHASE.REST,
@@ -177,30 +233,30 @@ function getNextTimerState(
     };
   }
 
-  // Rest → next exercise or next round
-  if (current.phase === TIMER_PHASE.REST) {
-    const isLastExercise =
-      current.currentExercise >= workout.exercises.length - 1;
+  return startNextExercise(current, workout);
+}
 
-    // Last exercise of current round → first exercise of next round
-    if (isLastExercise) {
-      return {
-        ...current,
-        phase: TIMER_PHASE.WORK,
-        remainingSeconds: workout.workSeconds,
-        currentExercise: 0,
-        currentRound: current.currentRound + 1,
-      };
-    }
+function startNextRound(
+  current: TimerState,
+  workout: HiitWorkout,
+): TimerState {
+  return {
+    ...current,
+    phase: TIMER_PHASE.WORK,
+    remainingSeconds: workout.workSeconds,
+    currentExercise: 0,
+    currentRound: current.currentRound + 1,
+  };
+}
 
-    // Otherwise → next exercise
-    return {
-      ...current,
-      phase: TIMER_PHASE.WORK,
-      remainingSeconds: workout.workSeconds,
-      currentExercise: current.currentExercise + 1,
-    };
-  }
-
-  return current;
+function startNextExercise(
+  current: TimerState,
+  workout: HiitWorkout,
+): TimerState {
+  return {
+    ...current,
+    phase: TIMER_PHASE.WORK,
+    remainingSeconds: workout.workSeconds,
+    currentExercise: current.currentExercise + 1,
+  };
 }

@@ -48,6 +48,7 @@ function getTimerButton(
     case TIMER_PHASE.COUNTDOWN:
     case TIMER_PHASE.WORK:
     case TIMER_PHASE.REST:
+    case TIMER_PHASE.ROUND_REST:
       return { label: "PAUSE TIMER", onClick: onPause };
 
     case TIMER_PHASE.FREEZE:
