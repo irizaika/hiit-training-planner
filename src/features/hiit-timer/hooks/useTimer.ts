@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import type { HiitWorkout } from "../models/workout";
+import type { HiitWorkout } from "../../../models/workout";
 import {
   TIMER_PHASE,
   type TimerState,
-} from "../models/timer";
-import { playCountdownBeep } from "../utils/countdownSound";
-import { calculateTotalTime } from "../utils/time"
+} from "../../../models/timer";
+import { playCountdownBeep } from "../../../utils/countdownSound";
+import { calculateTotalTime } from "../../../utils/time"
 
 interface UseTimerProps {
   workout: HiitWorkout;
@@ -15,6 +15,10 @@ export function useTimer({ workout }: UseTimerProps) {
   const [timer, setTimer] = useState<TimerState>(() =>
     createInitialTimerState(workout),
   );
+
+//     useEffect(() => {
+//   setTimer(createInitialTimerState(workout));
+// }, [workout]);
 
   const start = () => {
     setTimer({
@@ -101,6 +105,9 @@ export function useTimer({ workout }: UseTimerProps) {
       playCountdownBeep(timer.remainingSeconds, timer.phase);
     }
   }, [timer.remainingSeconds, timer.phase]);
+
+  
+
 
   return {
     timer,

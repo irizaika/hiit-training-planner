@@ -1,6 +1,8 @@
-import type { HiitWorkout } from "../../models/workout";
-import { TIMER_PHASE, type TimerState } from "../../models/timer";
-import { formatTime, formatTimePadStart } from "../../utils/time";
+import type { HiitWorkout } from "../../../../models/workout";
+import { TIMER_PHASE, type TimerState } from "../../../../models/timer";
+import { formatTime, formatTimePadStart } from "../../../../utils/time";
+import "./TimerDisplay.css"
+
 
 interface TimerDisplayProps {
   workout: HiitWorkout;

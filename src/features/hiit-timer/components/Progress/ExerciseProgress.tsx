@@ -1,7 +1,9 @@
 import { useEffect, useRef } from "react";
 
-import type { Exercise } from "../../models/exercise";
-import { TIMER_PHASE, type TimerPhase } from "../../models/timer";
+import type { Exercise } from "../../../../models/exercise";
+import { TIMER_PHASE, type TimerPhase } from "../../../../models/timer";
+
+import "./ExerciseProgress.css"
 
 interface ExerciseProgressProps {
   exercises: Exercise[];

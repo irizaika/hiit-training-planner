@@ -1,5 +1,5 @@
 import { useState } from "react";
-import type { HiitWorkout } from "../../models/workout";
+import type { HiitWorkout } from "../../../models/workout";
 import "./AddHiitWorkoutModal.css";
 import { DurationField } from "./DurationField";
 

@@ -1,12 +1,12 @@
 import type { HiitWorkout } from "../../models/workout";
 import { TIMER_PHASE, type TimerPhase } from "../../models/timer";
-import { useTimer } from "../../hooks/useTimer";
+import { useTimer } from "./hooks/useTimer";
 import "./HiitTimer.css";
-import { TimerHeader } from "./TimerHeader";
-import { TimerDisplay } from "./TimerDisplay";
-import { ExerciseProgress } from "./ExerciseProgress";
-import { WorkoutProgress } from "./WorkoutProgress";
-import { TimerControls } from "./TimerControls";
+import { TimerHeader } from "./components/Timer/TimerHeader";
+import { TimerDisplay } from "./components/Timer/TimerDisplay";
+import { ExerciseProgress } from "./components/Progress/ExerciseProgress";
+import { WorkoutProgress } from "./components/Progress/WorkoutProgress";
+import { TimerControls } from "./components/Timer/TimerControls";
 import { calculateTotalTime } from "../../utils/time";
 
 interface HiitTimerProps {
@@ -17,6 +17,7 @@ export function HiitTimer({ selectedWorkout }: HiitTimerProps) {
   const { timer, start, pause, resume } = useTimer({
     workout: selectedWorkout,
   });
+  
 
   const totalWorkPeriods =
     selectedWorkout.exercises.length * selectedWorkout.rounds;

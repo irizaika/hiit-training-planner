@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import type { Workout } from "../../models/workout";
+import type { Workout } from "../../../models/workout";
 import "./WorkoutMenu.css"
 
 

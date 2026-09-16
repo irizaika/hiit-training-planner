@@ -1,0 +1,32 @@
+.workout-progress-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-3);
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+}
+
+
+.workout-progress {
+  margin-bottom: var(--space-8);
+}
+
+.workout-progress-header strong {
+  color: var(--color-text);
+}
+
+.progress-bar {
+  width: 100%;
+  height: 8px;
+  overflow: hidden;
+  border-radius: var(--radius-full);
+  background: var(--color-border);
+}
+
+.progress-bar-value {
+  height: 100%;
+  border-radius: inherit;
+  background: var(--color-text);
+  transition: width 250ms ease;
+}

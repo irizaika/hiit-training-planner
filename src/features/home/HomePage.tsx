@@ -2,8 +2,8 @@ import {
   routes,
   type AppRoute,
 } from "../../app/routes";
-import { WorkoutOption } from "../../components/WorkoutCard/WorkoutOption";
-import { WorkoutLibraryActions } from "../../components/WorkoutLibraryActions/WorkoutLibraryActions";
+import { WorkoutOption } from "./WorkoutOption/WorkoutOption";
+import { WorkoutLibraryActions } from "./WorkoutLibraryActions/WorkoutLibraryActions";
 import "./HomePage.css";
 
 export interface HomePageProps {

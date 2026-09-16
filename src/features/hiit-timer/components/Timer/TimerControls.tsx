@@ -1,4 +1,6 @@
-import { TIMER_PHASE, type TimerPhase } from "../../models/timer";
+import { TIMER_PHASE, type TimerPhase } from "../../../../models/timer";
+import "./TimerControls.css"
+
 
 interface TimerControlsProps {
   phase: TimerPhase;

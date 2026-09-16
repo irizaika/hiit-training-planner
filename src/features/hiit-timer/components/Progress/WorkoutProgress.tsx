@@ -1,3 +1,5 @@
+import "./WorkoutProgress.css"
+
 interface WorkoutProgressProps {
   currentRound: number;
   totalRounds: number;

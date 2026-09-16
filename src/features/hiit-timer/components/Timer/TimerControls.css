@@ -1,0 +1,29 @@
+.start-button {
+  width: 100%;
+  min-height: 58px;
+
+  border: 1px solid var(--color-text);
+  border-radius: var(--radius-md);
+
+  background: var(--color-text);
+  color: var(--color-bg);
+
+  font-size: var(--font-size-md);
+  font-weight: 800;
+  letter-spacing: 0.04em;
+
+  cursor: pointer;
+
+  transition:
+    transform var(--transition-fast),
+    opacity var(--transition-fast);
+}
+
+.start-button:hover {
+  transform: translateY(-2px);
+  opacity: 0.9;
+}
+
+.start-button:active {
+  transform: translateY(0);
+}

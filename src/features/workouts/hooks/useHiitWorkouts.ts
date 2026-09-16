@@ -1,8 +1,8 @@
 import { useState } from "react";
 
-import type { HiitWorkout } from "../models/workout";
-import { getNextId } from "../utils/id";
-import { useWorkouts } from "../context/useWorkout";
+import type { HiitWorkout } from "../../../models/workout";
+import { getNextId } from "../../../utils/id";
+import { useWorkouts } from "../../../context/useWorkout";
 
 export function useHiitWorkouts() {
   const { workouts, setHiitWorkouts } = useWorkouts();

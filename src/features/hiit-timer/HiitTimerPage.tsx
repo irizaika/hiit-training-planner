@@ -1,12 +1,14 @@
 import "./HiitTimerPage.css";
 
 import { HiitTimer } from "./HiitTimer";
-import { AddHiitWorkoutModal } from "../../components/Modal/AddHiitWorkoutModal";
-import { WorkoutList } from "../../components/Layout/WorkoutList";
+import { AddHiitWorkoutModal } from "../workouts/modals/AddHiitWorkoutModal";
+import { WorkoutList } from "../workouts/components/WorkoutList";
 import { WorkoutLayout } from "../../components/Layout/WorkoutLayout";
 import { WorkoutPanel } from "../../components/Layout/WorkoutPanel";
 import { TimerPanel } from "../../components/Layout/TimerPanel";
-import { useHiitWorkouts } from "../../hooks/useHiitWorkouts";
+import { useHiitWorkouts } from "../workouts/hooks/useHiitWorkouts";
+import "./HiitTimerPage.css"
+
 
 export function HiitTimerPage() {
   const {
@@ -50,7 +52,7 @@ export function HiitTimerPage() {
         <TimerPanel selectedWorkout={selectedWorkout}>
           {selectedWorkout && (
             <HiitTimer
-              key={selectedWorkout.id}
+              key={`${selectedWorkout.id}-${selectedWorkout.updatedAt}`}
               selectedWorkout={selectedWorkout}
             />
           )}

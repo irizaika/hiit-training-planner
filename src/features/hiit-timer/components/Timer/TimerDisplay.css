@@ -1,0 +1,33 @@
+.timer-display {
+  margin: 32px 0 32px;
+  text-align: center;
+}
+
+.timer-display strong {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: clamp(90px, 14vw, 150px);
+  line-height: 0.9;
+  letter-spacing: -0.08em;
+}
+
+.timer-unit {
+  display: block;
+  margin-top: var(--space-4);
+  color: var(--color-text-subtle);
+  font-size: var(--font-size-xs);
+  letter-spacing: 0.12em;
+}
+
+/* --------------------------------
+   Mobile
+--------------------------------- */
+@media (max-width: 800px) {
+  .timer-display {
+    margin: 48px 0 40px;
+  }
+
+  .timer-display strong {
+    font-size: clamp(90px, 28vw, 140px);
+  }
+}

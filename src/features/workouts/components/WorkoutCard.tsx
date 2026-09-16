@@ -1,4 +1,4 @@
-import type { Workout } from "../../models/workout";
+import type { Workout } from "../../../models/workout";
 import { WorkoutMenu } from "./WorkoutMenu";
 import "./WorkoutCard.css"
 

@@ -38,3 +38,14 @@
 .timer-empty > p:last-child {
   color: var(--color-text-muted);
 }
+
+
+/* --------------------------------
+   Mobile
+--------------------------------- */
+@media (max-width: 800px) {
+  .timer-panel {
+    min-height: 560px;
+    padding: var(--space-8) var(--space-5);
+  }
+}

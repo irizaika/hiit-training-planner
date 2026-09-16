@@ -1,6 +1,6 @@
-import { exportWorkouts } from "../../services/exportWorkout";
-import { importWorkouts } from "../../services/importWorkout";
-import { useWorkouts } from "../../context/useWorkout";
+import { exportWorkouts } from "../../../services/exportWorkout";
+import { importWorkouts } from "../../../services/importWorkout";
+import { useWorkouts } from "../../../context/useWorkout";
 
 import "./WorkoutLibraryActions.css";
 
