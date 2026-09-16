@@ -49,10 +49,21 @@ export function WorkoutCard({
 
 function getWorkoutDescription(workout: Workout): string {
   switch (workout.type) {
-    case "hiit":
-      return `${workout.workSeconds}s work · ${workout.restSeconds}s rest`;
+    case "hiit": {
+      const details = [
+        `${workout.workSeconds}s work`,
+        workout.restEnabled && `${workout.restSeconds}s rest`,
+        workout.roundRestEnabled &&
+          `${workout.roundRestSeconds}s round rest`,
+        `${workout.exercises.length} exercises`,
+      ].filter(Boolean);
+
+      return details.join(" · ");
+    }
+
     case "rounds":
       return `${workout.rounds.length} exercises per round`;
+
     case "sets":
       return `${workout.exercises.length} exercises`;
   }

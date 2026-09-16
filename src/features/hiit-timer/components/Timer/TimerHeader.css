@@ -46,6 +46,7 @@
 }
 
 .timer-workout-meta span {
+  color: var(--color-text-muted);
   font-size: var(--font-size-xs);
   overflow: hidden;
   text-overflow: ellipsis;

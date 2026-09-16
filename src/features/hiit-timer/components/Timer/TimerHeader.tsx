@@ -36,7 +36,12 @@ export function TimerHeader({
 
         <div className="row">
           <h4>{workout.name}</h4>
-          <span>{formatTime(totalTime)} total time</span>
+
+          <div className="timer-workout-meta">
+            <span>{totalRounds} rounds</span>
+            <span className="separator">·</span>
+            <span>{formatTime(totalTime)} total</span>
+          </div>
         </div>
 
         <div className="timer-workout-meta">
@@ -45,7 +50,7 @@ export function TimerHeader({
           {workout.restEnabled && (
             <>
               <span className="separator">·</span>
-              <span>{workout.restSeconds}s exercise rest</span>
+              <span>{workout.restSeconds}s rest</span>
             </>
           )}
 
@@ -55,9 +60,6 @@ export function TimerHeader({
               <span>{workout.roundRestSeconds}s round rest</span>
             </>
           )}
-
-          <span className="separator">·</span>
-          <span>{totalRounds} rounds</span>
         </div>
       </div>
 
