@@ -1,17 +1,16 @@
-import "./HiitTimerPage.css";
-
-import { HiitTimer } from "./HiitTimer";
-import { AddHiitWorkoutModal } from "../workouts/modals/AddHiitWorkoutModal";
+// import { AddHiitWorkoutModal } from "../workouts/modals/AddHiitWorkoutModal";
 import { WorkoutList } from "../workouts/components/WorkoutList";
 import { WorkoutLayout } from "../../components/Layout/WorkoutLayout";
 import { WorkoutPanel } from "../../components/Layout/WorkoutPanel";
 import { TimerPanel } from "../../components/Layout/TimerPanel";
-import "./HiitTimerPage.css";
-import { useHiitWorkouts } from "../workouts/hooks/useHiitWorkouts";
+import "./TrainingPage.css"
+import { useTrainingWorkouts } from "../workouts/hooks/useTrainings";
+import {AddTrainingModal} from "./modals/AddTrainingModal"
 
-export function HiitTimerPage() {
+
+export function TrainingPage() {
   const {
-    hiitWorkouts,
+    trainingWorkouts,
     selectedWorkout,
     selectedWorkoutId,
 
@@ -28,18 +27,18 @@ export function HiitTimerPage() {
     closeCreateModal,
     openEditModal,
     closeEditModal,
-  } = useHiitWorkouts();
+  } = useTrainingWorkouts();
 
   return (
     <>
       <WorkoutLayout>
         <WorkoutPanel
-          name="HIIT"
-          count={hiitWorkouts.length}
+          name="TRAINING"
+          count={trainingWorkouts.length}
           onCreate={openCreateModal}
         >
           <WorkoutList
-            workouts={hiitWorkouts}
+            workouts={trainingWorkouts}
             selectedWorkoutId={selectedWorkoutId}
             onSelectWorkout={selectWorkout}
             onDelete={deleteWorkout}
@@ -49,29 +48,24 @@ export function HiitTimerPage() {
         </WorkoutPanel>
 
         <TimerPanel selectedWorkout={selectedWorkout}>
-          {selectedWorkout && (
-            <HiitTimer
-              key={`${selectedWorkout.id}-${selectedWorkout.updatedAt}`}
-              selectedWorkout={selectedWorkout}
-            />
-          )}
+          <></>
         </TimerPanel>
       </WorkoutLayout>
 
-      {isAddWorkoutOpen && (
-        <AddHiitWorkoutModal
+     {isAddWorkoutOpen && (
+        <AddTrainingModal
           onClose={closeCreateModal}
           onCreate={createWorkout}
         />
       )}
 
       {isEditWorkoutOpen && selectedWorkout && (
-        <AddHiitWorkoutModal
+        <AddTrainingModal
           workout={selectedWorkout}
           onClose={closeEditModal}
           onCreate={editWorkout}
         />
-      )}
+      )} 
     </>
   );
 }

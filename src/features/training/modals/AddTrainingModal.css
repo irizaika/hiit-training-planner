@@ -1,0 +1,423 @@
+
+.training-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+
+  display: grid;
+  place-items: center;
+
+  padding: var(--space-3);
+  background: rgb(0 0 0 / 0.4);
+}
+
+.training-modal {
+  width: min(100%, 720px);
+  max-height: calc(100dvh - 24px);
+  overflow-y: auto;
+
+  padding: var(--space-6);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+
+  background: var(--color-surface);
+  color: var(--color-text);
+  box-shadow: 0 16px 40px rgb(0 0 0 / 0.14);
+}
+
+.training-modal-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin-bottom: var(--space-5);
+}
+
+.training-modal-header h2 {
+  margin: 3px 0 0;
+  font-size: 20px;
+  line-height: 1.3;
+}
+
+/* Form */
+
+.training-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+
+  min-width: 0;
+  margin-bottom: var(--space-3);
+}
+
+.training-form-group-dummy {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  min-width: 0;
+
+}
+
+.training-form-group > label {
+  min-height: 18px;
+
+  color: var(--color-text);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+}
+
+.training-form-group > input,
+.training-form-group > select {
+  width: 100%;
+  min-width: 0;
+  min-height: 40px;
+  padding: 0 var(--space-3);
+
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+
+  background: var(--color-surface);
+  color: var(--color-text);
+  font: inherit;
+}
+
+.training-form-group > input:focus,
+.training-form-group > select:focus {
+  outline: none;
+  border-color: var(--color-border-hover);
+  background: var(--color-surface-hover);
+}
+
+/* Sections */
+
+.training-form-section {
+  margin-top: var(--space-4);
+  padding-top: var(--space-4);
+
+  border-top: 1px solid var(--color-border);
+}
+
+.training-form-section-header {
+  margin-bottom: var(--space-3);
+}
+
+.training-form-section-header h3,
+.training-subsection-header h4 {
+  margin: 0;
+  font-size: var(--font-size-sm);
+}
+
+.training-form-section-header p,
+.training-subsection-header p {
+  margin: var(--space-1) 0 0;
+
+  color: var(--color-text-muted);
+  font-size: var(--font-size-xs);
+}
+
+/* Blocks */
+
+.training-block-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.training-block {
+  padding: var(--space-4);
+
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+
+  background: var(--color-surface-hover);
+}
+
+.training-block-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  margin-bottom: var(--space-3);
+}
+
+.training-block-number {
+  color: var(--color-text);
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+}
+
+.training-block-main-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 100px;
+  gap: var(--space-3);
+}
+/*Header*/
+.training-workout-header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 180px;
+  gap: var(--space-3);
+
+  margin-bottom: var(--space-4);
+}
+
+.training-workout-name,
+.training-workout-mode {
+  min-width: 0;
+}
+
+/* Remove the bottom margin from the mode wrapper */
+.training-workout-mode .training-form-group {
+  margin-bottom: 0;
+}
+
+.training-workout-name {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.training-workout-name > label {
+  min-height: 18px;
+
+  color: var(--color-text);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+}
+
+.training-workout-name > input {
+  width: 100%;
+  min-width: 0;
+  min-height: 40px;
+  padding: 0 var(--space-3);
+
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+
+  background: var(--color-surface);
+  color: var(--color-text);
+  font: inherit;
+}
+
+/* Exercises */
+ .training-exercise-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.training-exercise-item {
+  overflow: hidden;
+
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+
+  background: var(--color-surface);
+}
+
+.training-exercise-item.is-editing {
+  background: var(--color-surface-hover);
+}
+
+/* Compact exercise row */
+.training-exercise-row {
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--space-3);
+
+  min-height: 52px;
+  padding: 7px 8px;
+}
+
+.exercise-number {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  text-align: center;
+}
+
+.exercise-info {
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.exercise-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  color: var(--color-text);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+}
+
+.exercise-meta {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+
+  color: var(--color-text-muted);
+  font-size: var(--font-size-xs);
+}
+
+.exercise-meta-separator {
+  opacity: 0.5;
+}
+
+.exercise-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.remove-edit-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 30px;
+  height: 30px;
+  padding: 0;
+
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+
+  background: var(--color-surface);
+  color: var(--color-text);
+
+  font: inherit;
+  font-size: var(--font-size-xs);
+
+  cursor: pointer;
+}
+
+.remove-edit-button:hover {
+  background: var(--color-surface-hover);
+}
+
+.training-exercise-editor {
+  display: grid;
+  gap: var(--space-3);
+
+  padding: var(--space-3);
+
+  border-top: 1px solid var(--color-border);
+}
+
+/* Checkbox */
+
+.training-checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+
+  min-height: 18px;
+
+  color: var(--color-text);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+}
+
+.training-checkbox-label input {
+  width: 14px;
+  height: 14px;
+  margin: 0;
+
+  flex-shrink: 0;
+
+  accent-color: var(--color-text);
+}
+
+/* Rest */
+
+.training-rest-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-3);
+
+  margin-top: var(--space-3);
+  padding-top: var(--space-3);
+
+  border-top: 1px solid var(--color-border);
+}
+
+.training-rest-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.training-rest-field > input {
+  width: 100%;
+  min-height: 40px;
+  padding: 0 var(--space-3);
+
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+
+  background: var(--color-surface);
+  color: var(--color-text);
+  font: inherit;
+}
+
+/* Buttons */
+
+.training-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+
+  margin-top: var(--space-4);
+  padding-top: var(--space-4);
+
+  border-top: 1px solid var(--color-border);
+}
+
+/* Mobile */
+
+@media (max-width: 600px) {
+
+    .training-workout-header {
+    grid-template-columns: 1fr;
+  }
+  .training-modal-backdrop {
+    align-items: end;
+    padding: 0;
+  }
+
+  .training-modal {
+    max-height: 92dvh;
+    padding: var(--space-5);
+
+    border-radius: var(--radius-md) var(--radius-md) 0 0;
+  }
+
+  .training-block-main-row,
+ .training-exercise-options, 
+  .training-rest-row {
+    grid-template-columns: 1fr;
+  }
+
+  .training-modal-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  /*Exercises*/
+  .training-exercise-row {
+    grid-template-columns: 24px minmax(0, 1fr) auto;
+    gap: var(--space-2);
+  }
+
+  .exercise-meta {
+    flex-wrap: wrap;
+  }
+
+  .exercise-actions {
+    align-self: start;
+  }
+
+}

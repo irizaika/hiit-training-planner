@@ -1,6 +1,6 @@
 import type { Workout } from "../../../models/workout";
 import { WorkoutMenu } from "./WorkoutMenu";
-import "./WorkoutCard.css"
+import "./WorkoutCard.css";
 
 interface WorkoutCardProps {
   workout: Workout;
@@ -30,9 +30,7 @@ export function WorkoutCard({
           <h2>{workout.name}</h2>
 
           <p>
-            {getWorkoutDescription(workout)}
-            <span className="workout-separator"> · </span>
-            {getWorkoutMeta(workout)}
+            {getWorkoutSummary(workout)}
           </p>
         </div>
       </button>
@@ -47,35 +45,48 @@ export function WorkoutCard({
   );
 }
 
-function getWorkoutDescription(workout: Workout): string {
+function getWorkoutSummary(workout: Workout): string {
   switch (workout.type) {
     case "hiit": {
       const details = [
         `${workout.workSeconds}s work`,
         workout.restEnabled && `${workout.restSeconds}s rest`,
-        workout.roundRestEnabled &&
-          `${workout.roundRestSeconds}s round rest`,
+        workout.roundRestEnabled && `${workout.roundRestSeconds}s round rest`,
         `${workout.exercises.length} exercises`,
+        `${workout.rounds} rounds`,
       ].filter(Boolean);
 
       return details.join(" · ");
     }
 
-    case "rounds":
-      return `${workout.rounds.length} exercises per round`;
-
-    case "sets":
-      return `${workout.exercises.length} exercises`;
+    case "training":
+      return getTrainingSummary(workout);
   }
 }
+function getTrainingSummary(
+  workout: Extract<Workout, { type: "training" }>,
+): string {
+  const exerciseCount = workout.blocks.reduce(
+    (total, block) => total + block.exercises.length,
+    0,
+  );
 
-function getWorkoutMeta(workout: Workout): string {
-  switch (workout.type) {
-    case "hiit":
-      return `${workout.rounds} rounds`;
-    case "rounds":
-      return `${workout.repeatCount} repeats`;
-    case "sets":
-      return `${workout.sets} sets`;
+  const repeatCounts = workout.blocks
+    .map((block) => block.repeatCount)
+    .join(" + ");
+
+  const hasMultipleBlocks = workout.blocks.length > 1;
+
+  const details = [
+    hasMultipleBlocks
+      ? `${workout.blocks.length} blocks`
+      : `${exerciseCount} exercises`,
+    `${repeatCounts} ${hasMultipleBlocks ? "repeats" : "rounds"}`,
+  ];
+
+  if (hasMultipleBlocks) {
+    details.push(`${exerciseCount} exercises`);
   }
+
+  return details.join(" · ");
 }

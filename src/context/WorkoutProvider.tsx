@@ -4,8 +4,7 @@ import { WorkoutContext } from "./WorkoutContext";
 
 import type {
   HiitWorkout,
-  RoundWorkout,
-  SetWorkout,
+  TrainingWorkout,
   Workouts,
 } from "../models/workout";
 
@@ -13,8 +12,7 @@ const STORAGE_KEY = "hiit-training-workouts";
 
 const initialWorkouts: Workouts = {
   hiit: [],
-  rounds: [],
-  sets: [],
+  trainings: []
 };
 
 interface WorkoutProviderProps {
@@ -24,7 +22,6 @@ interface WorkoutProviderProps {
 function loadWorkouts(): Workouts {
   try {
     const saved = localStorage.getItem(STORAGE_KEY);
-
     if (!saved) {
       return initialWorkouts;
     }
@@ -40,6 +37,7 @@ export function WorkoutProvider({ children }: WorkoutProviderProps) {
   const [workouts, setWorkouts] = useState<Workouts>(loadWorkouts);
 
   useEffect(() => {
+
     localStorage.setItem(STORAGE_KEY, JSON.stringify(workouts));
   }, [workouts]);
 
@@ -50,27 +48,21 @@ export function WorkoutProvider({ children }: WorkoutProviderProps) {
     }));
   };
 
-  const setRoundWorkouts = (rounds: RoundWorkout[]) => {
+  const setTrainingWorkouts = (trainings: TrainingWorkout[]) => {
     setWorkouts((current) => ({
       ...current,
-      rounds,
+      trainings,
     }));
   };
 
-  const setSetWorkouts = (sets: SetWorkout[]) => {
-    setWorkouts((current) => ({
-      ...current,
-      sets,
-    }));
-  };
+
 
   return (
     <WorkoutContext.Provider
       value={{
         workouts,
         setHiitWorkouts,
-        setRoundWorkouts,
-        setSetWorkouts,
+        setTrainingWorkouts
       }}
     >
       {children}

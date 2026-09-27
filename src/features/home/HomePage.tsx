@@ -37,17 +37,10 @@ export function HomePage({ onNavigate }: HomePageProps) {
         />
 
         <WorkoutOption
-          icon="♻️"
-          title="Rounds"
-          description="Combine several exercises into rounds."
-          onClick={() => onNavigate(routes.rounds)}
-        />
-
-        <WorkoutOption
           icon="🏋"
-          title="Sets"
-          description="Create traditional exercise sets."
-          onClick={() => onNavigate(routes.sets)}
+          title="Rounds/Sets"
+          description="Create traditional exercise sets or ombine several exercises into rounds."
+          onClick={() => onNavigate(routes.training)}
         />
       </div>
 
