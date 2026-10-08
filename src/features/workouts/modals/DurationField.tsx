@@ -8,7 +8,6 @@ interface DurationFieldProps {
   checkbox?: {
     checked: boolean;
     onChange: (checked: boolean) => void;
-    label: string;
   };
 }
 
@@ -30,7 +29,7 @@ export function DurationField({
             checked={checkbox.checked}
             onChange={(event) => checkbox.onChange(event.target.checked)}
           />
-          <span>{checkbox.label}</span>
+          <span>{label}</span>
         </label>
       ) : (
         <label className="checkbox-label" htmlFor={id}>{label}</label>

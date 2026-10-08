@@ -1,46 +1,4 @@
-
-.training-modal-backdrop {
-  position: fixed;
-  inset: 0;
-  z-index: 1000;
-
-  display: grid;
-  place-items: center;
-
-  padding: var(--space-3);
-  background: rgb(0 0 0 / 0.4);
-}
-
-.training-modal {
-  width: min(100%, 720px);
-  max-height: calc(100dvh - 24px);
-  overflow-y: auto;
-
-  padding: var(--space-6);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-
-  background: var(--color-surface);
-  color: var(--color-text);
-  box-shadow: 0 16px 40px rgb(0 0 0 / 0.14);
-}
-
-.training-modal-header {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: var(--space-3);
-  margin-bottom: var(--space-5);
-}
-
-.training-modal-header h2 {
-  margin: 3px 0 0;
-  font-size: 20px;
-  line-height: 1.3;
-}
-
 /* Form */
-
 .training-form-group {
   display: flex;
   flex-direction: column;
@@ -50,15 +8,15 @@
   margin-bottom: var(--space-3);
 }
 
+/* 
 .training-form-group-dummy {
   display: flex;
   flex-direction: column;
   gap: var(--space-1);
   min-width: 0;
+} */
 
-}
-
-.training-form-group > label {
+.training-form-group>label {
   min-height: 18px;
 
   color: var(--color-text);
@@ -66,8 +24,8 @@
   font-weight: 600;
 }
 
-.training-form-group > input,
-.training-form-group > select {
+.training-form-group>input,
+.training-form-group>select {
   width: 100%;
   min-width: 0;
   min-height: 40px;
@@ -81,8 +39,8 @@
   font: inherit;
 }
 
-.training-form-group > input:focus,
-.training-form-group > select:focus {
+.training-form-group>input:focus,
+.training-form-group>select:focus {
   outline: none;
   border-color: var(--color-border-hover);
   background: var(--color-surface-hover);
@@ -146,11 +104,29 @@
   font-weight: 700;
 }
 
-.training-block-main-row {
+.training-block-name-row {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 100px;
+  grid-template-columns: minmax(0, 1fr);
+  margin-bottom: var(--space-3);
+}
+
+.training-block-name-row .training-form-group {
+  margin-bottom: 0;
+}
+
+.training-block-settings-row {
+  display: grid;
+  grid-template-columns:
+    100px minmax(0, 1fr) minmax(0, 1fr);
   gap: var(--space-3);
 }
+
+.training-block-settings-row .training-form-group {
+  margin-bottom: 0;
+}
+
+
+
 /*Header*/
 .training-workout-header {
   display: grid;
@@ -176,7 +152,7 @@
   gap: var(--space-1);
 }
 
-.training-workout-name > label {
+.training-workout-name>label {
   min-height: 18px;
 
   color: var(--color-text);
@@ -184,7 +160,7 @@
   font-weight: 600;
 }
 
-.training-workout-name > input {
+.training-workout-name>input {
   width: 100%;
   min-width: 0;
   min-height: 40px;
@@ -199,7 +175,7 @@
 }
 
 /* Exercises */
- .training-exercise-list {
+.training-exercise-list {
   display: flex;
   flex-direction: column;
   gap: 4px;
@@ -350,7 +326,7 @@
   gap: var(--space-2);
 }
 
-.training-rest-field > input {
+.training-rest-field>input {
   width: 100%;
   min-height: 40px;
   padding: 0 var(--space-3);
@@ -376,13 +352,45 @@
   border-top: 1px solid var(--color-border);
 }
 
+
+/**/
+.form-row {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.timing-row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+
+/* Sets */
+.sets-section-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+
+.sets-rest-field {
+  flex-shrink: 0;
+  width: 190px;
+}
+
+.sets-rest-field .form-group {
+  margin-bottom: 0;
+}
+
+
 /* Mobile */
 
 @media (max-width: 600px) {
 
-    .training-workout-header {
+  .training-workout-header {
     grid-template-columns: 1fr;
   }
+
   .training-modal-backdrop {
     align-items: end;
     padding: 0;
@@ -395,8 +403,7 @@
     border-radius: var(--radius-md) var(--radius-md) 0 0;
   }
 
-  .training-block-main-row,
- .training-exercise-options, 
+  .training-exercise-options,
   .training-rest-row {
     grid-template-columns: 1fr;
   }
@@ -420,4 +427,23 @@
     align-self: start;
   }
 
+  .timing-row {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .training-block-settings-row {
+    grid-template-columns: 1fr;
+  }
+
+  /* Sets*/
+  .sets-section-header {
+    align-items: stretch;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .sets-rest-field {
+    width: 100%;
+  }
 }

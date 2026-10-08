@@ -1,55 +1,36 @@
-import type {
-  WorkoutBlock,
-  WorkoutExercise,
-  TimerConfig,
-  ExerciseTarget,
-} from "../../../../models/workout";
+import type { WorkoutBlock, WorkoutExercise } from "../../../../../models/workout";
+import type { BlockWorkoutForm } from "../../../../training/hooks/useBlockWorkoutForm";
 import { TargetSelect } from "./TargerSelect";
 
-interface ExerciseEditorProp {
-  block: WorkoutBlock;
+interface CircularExerciseEditorProp {
+  block?: WorkoutBlock;
   exercise: WorkoutExercise;
   isEditing: boolean;
-  onUpdateExercise: (
-    blockId: number,
-    exerciseId: number,
-    update: Partial<WorkoutExercise>,
-  ) => void;
-  onUpdateTimer: (
-    blockId: number,
-    exerciseId: number,
-    timer: TimerConfig,
-  ) => void;
-  onUpdateTarget: (
-    blockId: number,
-    exerciseId: number,
-    target: ExerciseTarget,
-  ) => void;
+  form: BlockWorkoutForm
 }
 
-export function ExerciseEditor({
+export function CircularExerciseEditor({
   block,
   exercise,
   isEditing,
-  onUpdateExercise,
-  onUpdateTimer,
-  onUpdateTarget,
-}: ExerciseEditorProp) {
+  form
+}: CircularExerciseEditorProp) {
+  const blockId: number= block?.id??0;
   return (
     <>
       {isEditing && (
         <div className="training-exercise-editor">
           <div className="training-form-group">
-            <label htmlFor={`exercise-name-${block.id}-${exercise.id}`}>
+            <label htmlFor={`exercise-name-${blockId}-${exercise.id}`}>
               Exercise
             </label>
 
             <input
-              id={`exercise-name-${block.id}-${exercise.id}`}
+              id={`exercise-name-${blockId}-${exercise.id}`}
               type="text"
               value={exercise.name}
               onChange={(event) =>
-                onUpdateExercise(block.id, exercise.id, {
+                form.updateExercise(blockId, exercise.id, {
                   name: event.target.value,
                 })
               }
@@ -60,8 +41,8 @@ export function ExerciseEditor({
           </div>
 
           <TargetSelect
-            updateTarget={onUpdateTarget}
-            block={block}
+            updateTarget={form.updateTarget}
+            blockId={blockId}
             exercise={exercise}
           />
 
@@ -70,8 +51,8 @@ export function ExerciseEditor({
               type="checkbox"
               checked={exercise.timer?.enabled ?? false}
               onChange={(event) => {
-                onUpdateTimer(
-                  block.id,
+                form.updateTimer(
+                  block?.id??0,
                   exercise.id,
                   event.target.checked
                     ? {
@@ -90,15 +71,15 @@ export function ExerciseEditor({
 
           {exercise.timer?.enabled && (
             <div className="training-form-group">
-              <label htmlFor={`timer-${block.id}-${exercise.id}`}>Timer</label>
+              <label htmlFor={`timer-${blockId}-${exercise.id}`}>Timer</label>
 
               <input
-                id={`timer-${block.id}-${exercise.id}`}
+                id={`timer-${blockId}-${exercise.id}`}
                 type="number"
                 min="1"
                 value={exercise.timer.seconds}
                 onChange={(event) =>
-                  onUpdateTimer(block.id, exercise.id, {
+                  form.updateTimer(blockId, exercise.id, {
                     enabled: true,
                     seconds: Number(event.target.value),
                   })

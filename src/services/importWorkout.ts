@@ -1,5 +1,4 @@
-import type { HiitWorkout, TrainingWorkout, Workouts} 
-from "../models/workout";
+import type { HiitWorkout, TrainingWorkout, Workouts } from "../models/workout";
 
 export async function importWorkouts(file: File): Promise<Workouts> {
   const text = await file.text();
@@ -57,7 +56,6 @@ function isHiitWorkout(data: unknown): data is HiitWorkout {
   const workout = data as Record<string, unknown>;
 
   return (
-
     workout.type === "hiit" &&
     typeof workout.workSeconds === "number" &&
     typeof workout.restEnabled === "boolean" &&
@@ -73,30 +71,59 @@ function isTrainingWorkout(data: unknown): data is TrainingWorkout {
   if (!isBaseWorkout(data)) {
     return false;
   }
-
   const workout = data as Record<string, unknown>;
+  if (workout.type !== "training") {
+    return false;
+  }
+  switch (workout.mode) {
+    case "sets":
+      return (
+        Array.isArray(workout.exercises) &&
+        workout.exercises.every(isSetExercise) &&
+        isOptionalRestConfig(workout.restBetweenExercises)
+      );
+    case "circular":
+      return (
+        Array.isArray(workout.blocks) &&
+        workout.blocks.length === 1 &&
+        workout.blocks.every(isWorkoutBlock)
+      );
+    case "supersets":
+      return (
+        Array.isArray(workout.blocks) && workout.blocks.every(isWorkoutBlock)
+      );
+    default:
+      return false;
+  }
+}
 
+function isSetExercise(data: unknown): boolean {
+  if (!isWorkoutExercise(data)) {
+    return false;
+  }
+  const exercise = data as Record<string, unknown>;
   return (
-    workout.type === "training" &&
-    Array.isArray(workout.blocks) &&
-    workout.blocks.every(isWorkoutBlock)
+    typeof exercise.sets === "number" &&
+    isOptionalRestConfig(exercise.restBetweenSets)
   );
+}
+
+function isOptionalRestConfig(data: unknown): boolean {
+  return data === undefined || isRestConfig(data);
 }
 
 function isWorkoutBlock(data: unknown): boolean {
   if (!data || typeof data !== "object") {
     return false;
   }
-
   const block = data as Record<string, unknown>;
-
   return (
     typeof block.id === "number" &&
     Array.isArray(block.exercises) &&
     block.exercises.every(isWorkoutExercise) &&
     typeof block.repeatCount === "number" &&
-    isRestConfig(block.restBetweenExercises) &&
-    isRestConfig(block.restBetweenRepeats)
+    isOptionalRestConfig(block.restBetweenExercises) &&
+    isOptionalRestConfig(block.restBetweenRepeats)
   );
 }
 
@@ -119,23 +146,22 @@ function isExerciseTarget(data: unknown): boolean {
   if (!data || typeof data !== "object") {
     return false;
   }
-
   const target = data as Record<string, unknown>;
-
   if (typeof target.type !== "string") {
     return false;
   }
-
   switch (target.type) {
     case "reps":
       return typeof target.value === "number";
-
     case "duration":
       return typeof target.seconds === "number";
-
+    case "distance":
+      return (
+        typeof target.value === "number" &&
+        (target.unit === "m" || target.unit === "km")
+      );
     case "none":
       return true;
-
     default:
       return false;
   }
@@ -152,10 +178,7 @@ function isTimerConfig(data: unknown): boolean {
     return true;
   }
 
-  return (
-    timer.enabled === true &&
-    typeof timer.seconds === "number"
-  );
+  return timer.enabled === true && typeof timer.seconds === "number";
 }
 
 function isRestConfig(data: unknown): boolean {
@@ -165,8 +188,5 @@ function isRestConfig(data: unknown): boolean {
 
   const rest = data as Record<string, unknown>;
 
-  return (
-    typeof rest.enabled === "boolean" &&
-    typeof rest.seconds === "number"
-  );
+  return typeof rest.enabled === "boolean" && typeof rest.seconds === "number";
 }

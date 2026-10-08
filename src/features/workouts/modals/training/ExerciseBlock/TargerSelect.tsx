@@ -1,8 +1,7 @@
 import type {
-  WorkoutBlock,
   WorkoutExercise,
   ExerciseTarget,
-} from "../../../../models/workout";
+} from "../../../../../models/workout";
 
 interface TargetSelectProps {
   updateTarget: (
@@ -10,44 +9,44 @@ interface TargetSelectProps {
     exerciseId: number,
     target: ExerciseTarget,
   ) => void;
-  block: WorkoutBlock;
+  blockId: number;
   exercise: WorkoutExercise;
 }
 
 export function TargetSelect({
   updateTarget,
-  block,
+  blockId,
   exercise,
 }: TargetSelectProps) {
   return (
     <div className="training-exercise-options">
       <div className="training-form-group">
-        <label htmlFor={`target-${block.id}-${exercise.id}`}>Target</label>
+        <label htmlFor={`target-${blockId}-${exercise.id}`}>Target</label>
 
         <select
-          id={`target-${block.id}-${exercise.id}`}
+          id={`target-${blockId}-${exercise.id}`}
           value={exercise.target?.type ?? "none"}
           onChange={(event) => {
             const type = event.target.value;
 
             if (type === "reps") {
-              updateTarget(block.id, exercise.id, {
+              updateTarget(blockId, exercise.id, {
                 type: "reps",
                 value: 10,
               });
             } else if (type === "duration") {
-              updateTarget(block.id, exercise.id, {
+              updateTarget(blockId, exercise.id, {
                 type: "duration",
                 seconds: 30,
               });
             } else if (type === "distance") {
-              updateTarget(block.id, exercise.id, {
+              updateTarget(blockId, exercise.id, {
                 type: "distance",
                 value: 100,
                 unit: "m",
               });
             } else {
-              updateTarget(block.id, exercise.id, {
+              updateTarget(blockId, exercise.id, {
                 type: "none",
               });
             }
@@ -68,7 +67,7 @@ export function TargetSelect({
             min="1"
             value={exercise.target.value}
             onChange={(event) =>
-              updateTarget(block.id, exercise.id, {
+              updateTarget(blockId, exercise.id, {
                 type: "reps",
                 value: Number(event.target.value),
               })
@@ -85,7 +84,7 @@ export function TargetSelect({
             min="1"
             value={exercise.target.seconds}
             onChange={(event) =>
-              updateTarget(block.id, exercise.id, {
+              updateTarget(blockId, exercise.id, {
                 type: "duration",
                 seconds: Number(event.target.value),
               })
@@ -103,7 +102,7 @@ export function TargetSelect({
               min="1"
               value={exercise.target.value}
               onChange={(event) =>
-                updateTarget(block.id, exercise.id, {
+                updateTarget(blockId, exercise.id, {
                   type: "distance",
                   value: Number(event.target.value),
                   unit:
@@ -120,7 +119,7 @@ export function TargetSelect({
             <select
               value={exercise.target.unit}
               onChange={(event) =>
-                updateTarget(block.id, exercise.id, {
+                updateTarget(blockId, exercise.id, {
                   type: "distance",
                   value:
                     exercise.target?.type === "distance"

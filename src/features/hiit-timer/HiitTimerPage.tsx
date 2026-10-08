@@ -1,7 +1,7 @@
 import "./HiitTimerPage.css";
 
 import { HiitTimer } from "./HiitTimer";
-import { AddHiitWorkoutModal } from "../workouts/modals/AddHiitWorkoutModal";
+import { AddHiitWorkoutModal } from "../workouts/modals/hiit/AddHiitWorkoutModal";
 import { WorkoutList } from "../workouts/components/WorkoutList";
 import { WorkoutLayout } from "../../components/Layout/WorkoutLayout";
 import { WorkoutPanel } from "../../components/Layout/WorkoutPanel";
@@ -48,7 +48,7 @@ export function HiitTimerPage() {
           />
         </WorkoutPanel>
 
-        <TimerPanel selectedWorkout={selectedWorkout}>
+        <TimerPanel selectedWorkout={selectedWorkout??undefined}>
           {selectedWorkout && (
             <HiitTimer
               key={`${selectedWorkout.id}-${selectedWorkout.updatedAt}`}

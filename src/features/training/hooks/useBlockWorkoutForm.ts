@@ -8,10 +8,13 @@ import type {
   WorkoutExercise,
 } from "../../../models/workout";
 
-export interface TrainingWorkoutForm {
+export interface BlockWorkoutForm {
   blocks: WorkoutBlock[];
 
-  updateBlock: (blockId: number, update: Partial<WorkoutBlock>) => void;
+  updateBlock: (
+    blockId: number,
+    update: Partial<WorkoutBlock>,
+  ) => void;
 
   updateExercise: (
     blockId: number,
@@ -19,9 +22,12 @@ export interface TrainingWorkoutForm {
     update: Partial<WorkoutExercise>,
   ) => void;
 
-  addExercise: (blockId: number) => void;
+  addExercise: (blockId: number) => number;
 
-  removeExercise: (blockId: number, exerciseId: number) => void;
+  removeExercise: (
+    blockId: number,
+    exerciseId: number,
+  ) => void;
 
   addBlock: () => void;
 
@@ -29,7 +35,9 @@ export interface TrainingWorkoutForm {
 
   updateRest: (
     blockId: number,
-    field: "restBetweenExercises" | "restBetweenRepeats",
+    field:
+      | "restBetweenExercises"
+      | "restBetweenRepeats",
     rest: RestConfig,
   ) => void;
 
@@ -51,12 +59,8 @@ export interface TrainingWorkoutForm {
 const createExercise = (id: number): WorkoutExercise => ({
   id,
   name: "",
-  target: {
-    type: "none",
-  },
-  timer: {
-    enabled: false,
-  },
+  target: { type: "none" },
+  timer: { enabled: false },
 });
 
 const createBlock = (id: number): WorkoutBlock => ({
@@ -74,15 +78,27 @@ const createBlock = (id: number): WorkoutBlock => ({
   },
 });
 
-export function useTrainingWorkoutForm(workout?: TrainingWorkout) {
-  const [blocks, setBlocks] = useState<WorkoutBlock[]>(
-    workout?.blocks ?? [createBlock(1)],
-  );
+export function useBlockWorkoutForm(
+  workout?: TrainingWorkout,
+): BlockWorkoutForm {
+  const initialBlocks =
+    workout?.mode === "circular" ||
+    workout?.mode === "supersets"
+      ? workout.blocks
+      : [createBlock(1)];
 
-  const updateBlock = (blockId: number, update: Partial<WorkoutBlock>) => {
+  const [blocks, setBlocks] =
+    useState<WorkoutBlock[]>(initialBlocks);
+
+  const updateBlock = (
+    blockId: number,
+    update: Partial<WorkoutBlock>,
+  ) => {
     setBlocks((current) =>
       current.map((block) =>
-        block.id === blockId ? { ...block, ...update } : block,
+        block.id === blockId
+          ? { ...block, ...update }
+          : block,
       ),
     );
   };
@@ -101,7 +117,9 @@ export function useTrainingWorkoutForm(workout?: TrainingWorkout) {
         return {
           ...block,
           exercises: block.exercises.map((exercise) =>
-            exercise.id === exerciseId ? { ...exercise, ...update } : exercise,
+            exercise.id === exerciseId
+              ? { ...exercise, ...update }
+              : exercise,
           ),
         };
       }),
@@ -126,7 +144,9 @@ export function useTrainingWorkoutForm(workout?: TrainingWorkout) {
 
   const updateRest = (
     blockId: number,
-    field: "restBetweenExercises" | "restBetweenRepeats",
+    field:
+      | "restBetweenExercises"
+      | "restBetweenRepeats",
     rest: RestConfig,
   ) => {
     updateBlock(blockId, {
@@ -134,30 +154,47 @@ export function useTrainingWorkoutForm(workout?: TrainingWorkout) {
     });
   };
 
-  const addExercise = (blockId: number) => {
+  const addExercise = (blockId: number): number => {
+    let newId = 1;
+
     setBlocks((current) =>
       current.map((block) => {
         if (block.id !== blockId) {
           return block;
         }
 
-        const nextId =
+        newId =
           block.exercises.length > 0
-            ? Math.max(...block.exercises.map((exercise) => exercise.id)) + 1
+            ? Math.max(
+                ...block.exercises.map(
+                  (exercise) => exercise.id,
+                ),
+              ) + 1
             : 1;
 
         return {
           ...block,
-          exercises: [...block.exercises, createExercise(nextId)],
+          exercises: [
+            ...block.exercises,
+            createExercise(newId),
+          ],
         };
       }),
     );
+
+    return newId;
   };
 
-  const removeExercise = (blockId: number, exerciseId: number) => {
+  const removeExercise = (
+    blockId: number,
+    exerciseId: number,
+  ) => {
     setBlocks((current) =>
       current.map((block) => {
-        if (block.id !== blockId || block.exercises.length <= 1) {
+        if (
+          block.id !== blockId ||
+          block.exercises.length <= 1
+        ) {
           return block;
         }
 
@@ -171,21 +208,30 @@ export function useTrainingWorkoutForm(workout?: TrainingWorkout) {
     );
   };
 
-  const removeBlock = (blockId: number) => {
-    setBlocks((prevBlocks) =>
-      prevBlocks.filter((block) => block.id !== blockId),
-    );
-  };
-
   const addBlock = () => {
-    setBlocks((prevBlocks) => {
-      const nextId = Math.max(0, ...prevBlocks.map((block) => block.id)) + 1;
+    setBlocks((current) => {
+      const nextId =
+        Math.max(
+          0,
+          ...current.map((block) => block.id),
+        ) + 1;
 
-      return [...prevBlocks, createBlock(nextId)];
+      return [
+        ...current,
+        createBlock(nextId),
+      ];
     });
   };
 
-  const getCleanedBlocks = () => {
+  const removeBlock = (blockId: number) => {
+    setBlocks((current) =>
+      current.filter(
+        (block) => block.id !== blockId,
+      ),
+    );
+  };
+
+  const getCleanedBlocks = (): WorkoutBlock[] => {
     return blocks
       .map((block) => ({
         ...block,
@@ -197,7 +243,9 @@ export function useTrainingWorkoutForm(workout?: TrainingWorkout) {
           }))
           .filter((exercise) => exercise.name),
       }))
-      .filter((block) => block.exercises.length > 0);
+      .filter(
+        (block) => block.exercises.length > 0,
+      );
   };
 
   return {
@@ -208,9 +256,9 @@ export function useTrainingWorkoutForm(workout?: TrainingWorkout) {
     updateTimer,
     updateRest,
     addExercise,
+    removeExercise,
     addBlock,
     removeBlock,
-    removeExercise,
     getCleanedBlocks,
   };
 }

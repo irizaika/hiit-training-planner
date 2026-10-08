@@ -1,4 +1,4 @@
-import type { TrainingMode } from "../../../models/workout";
+import type { TrainingMode } from "../../../../../models/workout";
 import "./TrainingModeSelector.css"
 
 interface TrainingModeSelectorProps {

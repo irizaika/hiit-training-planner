@@ -29,9 +29,7 @@ export function WorkoutCard({
         <div className="workout-card-content">
           <h2>{workout.name}</h2>
 
-          <p>
-            {getWorkoutSummary(workout)}
-          </p>
+          <p>{getWorkoutSummary(workout)}</p>
         </div>
       </button>
 
@@ -63,30 +61,39 @@ function getWorkoutSummary(workout: Workout): string {
       return getTrainingSummary(workout);
   }
 }
+
 function getTrainingSummary(
   workout: Extract<Workout, { type: "training" }>,
 ): string {
-  const exerciseCount = workout.blocks.reduce(
-    (total, block) => total + block.exercises.length,
-    0,
-  );
+  if (workout.mode == "sets" && workout !=null && workout.exercises !=null) {
 
-  const repeatCounts = workout.blocks
-    .map((block) => block.repeatCount)
-    .join(" + ");
+    const details = `${workout.exercises.length} exercises`;
+    return details;
 
-  const hasMultipleBlocks = workout.blocks.length > 1;
+  } else if (workout.mode == "circular" || workout.mode == "supersets" ){
+    const exerciseCount = workout.blocks.reduce(
+      (total, block) => total + block.exercises.length,
+      0,
+    );
 
-  const details = [
-    hasMultipleBlocks
-      ? `${workout.blocks.length} blocks`
-      : `${exerciseCount} exercises`,
-    `${repeatCounts} ${hasMultipleBlocks ? "repeats" : "rounds"}`,
-  ];
+    const repeatCounts = workout.blocks
+      .map((block) => block.repeatCount)
+      .join(" + ");
 
-  if (hasMultipleBlocks) {
-    details.push(`${exerciseCount} exercises`);
+    const hasMultipleBlocks = workout.blocks.length > 1;
+
+    const details = [
+      hasMultipleBlocks
+        ? `${workout.blocks.length} blocks`
+        : `${exerciseCount} exercises`,
+      `${repeatCounts} ${hasMultipleBlocks ? "repeats" : "rounds"}`,
+    ];
+
+    if (hasMultipleBlocks) {
+      details.push(`${exerciseCount} exercises`);
+    }
+
+    return details.join(" · ");
   }
-
-  return details.join(" · ");
+  return "";
 }

@@ -19,9 +19,9 @@ export function useWorkoutCollection<T extends Workout>({
   const [isAddWorkoutOpen, setIsAddWorkoutOpen] = useState(false);
   const [isEditWorkoutOpen, setIsEditWorkoutOpen] = useState(false);
 
-  const selectedWorkout = workouts.find(
+  const selectedWorkout = ( workouts!=null && workouts.length > 0 ) ? workouts.find(
     (workout) => workout.id === selectedWorkoutId,
-  );
+  ) : null;
 
   const selectWorkout = (workoutId: number) => {
     setSelectedWorkoutId(workoutId);
