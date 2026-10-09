@@ -1,75 +1,93 @@
-# React + TypeScript + Vite
+# HIIT Training Planner
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A small React + TypeScript workout app for building and running short, high-intensity training sessions without needing a bloated fitness app.
 
-Currently, two official plugins are available:
+This project is built around the idea of a fast workout flow:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- create a training block
+- define work and rest intervals
+- run the timer with minimal friction
+- save your plans locally in the browser
+- export or import workout data when needed
 
-## React Compiler
+It is not a starter template. It is a practical training tool for moving from planning to execution quickly.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## What it does
 
-## Expanding the ESLint configuration
+### HIIT mode
+- build custom HIIT workouts with exercises, intervals, and rounds
+- configure work time, rest time, and round-level breaks
+- create, edit, duplicate, or delete workouts from a local library
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### Rounds and sets
+- support different workout structures beyond a single interval flow
+- define multi-round training blocks and repeated set-based sessions
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### Timer experience
+- simple countdown-style timing interface
+- focused layout for workout execution
+- designed for a laptop or phone screen during training
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+### Data handling
+- workouts are stored in the browser
+- workout collections can be imported/exported as JSON
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Project structure
 
+- `src/app` — app shell and routing
+- `src/features` — workout flows and timer pages
+- `src/components` — shared layout and UI building blocks
+- `src/context` — workout state management
+- `src/models` — workout and exercise types
+- `src/services` — import/export functionality
+- `src/utils` — helpers for IDs, timing, and local utilities
+
+## Getting started
+
+Install dependencies:
+
+```bash
+npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://npmx.dev/package/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://npmx.dev/package/eslint-plugin-react-dom) for React-specific lint rules:
+Run the app locally:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+```bash
+npm run dev
 ```
+
+Build for production:
+
+```bash
+npm run build
+```
+
+Preview the production build:
+
+```bash
+npm run preview
+```
+
+## Typical workflow
+
+1. Open the app and choose a workout mode.
+2. Create a workout or select an existing one.
+3. Add exercises and set timings.
+4. Start the timer and follow the interval flow.
+5. Save or export the plan for reuse later.
+
+## Notes
+
+This app intentionally keeps the UI lean and action-focused. The goal is not a giant fitness dashboard; it is a fast, clear tool for executing a workout without getting in the way.
+
+## Tech stack
+
+- React
+- TypeScript
+- Vite
+- CSS for layout and components
+
+## License
+
+This project is for personal or local use. If you are using it in a production or team environment, check the repository owner for any explicit licensing details before redistribution.
+
