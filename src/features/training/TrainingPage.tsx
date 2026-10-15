@@ -5,7 +5,8 @@ import { WorkoutPanel } from "../../components/Layout/WorkoutPanel";
 import { TimerPanel } from "../../components/Layout/TimerPanel";
 import "./TrainingPage.css"
 import { useTrainingWorkouts } from "../workouts/hooks/useTrainings";
-import {AddTrainingModal} from "./modals/AddTrainingModal"
+import {AddTrainingModal} from "../workouts/modals/training/AddTrainingModal"
+import { TrainingExecution } from "./TrainingExecution";
 
 
 export function TrainingPage() {
@@ -34,7 +35,8 @@ export function TrainingPage() {
       <WorkoutLayout>
         <WorkoutPanel
           name="TRAINING"
-          count={trainingWorkouts.length}
+          count={trainingWorkouts?.length??0}
+          // count={trainingWorkouts != null ? trainingWorkouts.length : 0}
           onCreate={openCreateModal}
         >
           <WorkoutList
@@ -47,16 +49,18 @@ export function TrainingPage() {
           />
         </WorkoutPanel>
 
-        <TimerPanel selectedWorkout={selectedWorkout}>
-          <></>
+        <TimerPanel selectedWorkout={selectedWorkout ?? undefined}>
+          {selectedWorkout && (
+            <TrainingExecution
+              key={`${selectedWorkout.id}-${selectedWorkout.updatedAt}`}
+              workout={selectedWorkout}
+            />
+          )}
         </TimerPanel>
       </WorkoutLayout>
 
-     {isAddWorkoutOpen && (
-        <AddTrainingModal
-          onClose={closeCreateModal}
-          onCreate={createWorkout}
-        />
+      {isAddWorkoutOpen && (
+        <AddTrainingModal onClose={closeCreateModal} onCreate={createWorkout} />
       )}
 
       {isEditWorkoutOpen && selectedWorkout && (
@@ -65,7 +69,7 @@ export function TrainingPage() {
           onClose={closeEditModal}
           onCreate={editWorkout}
         />
-      )} 
+      )}
     </>
   );
 }

@@ -35,7 +35,7 @@ export function SetExerciseEditor({
 
       <TargetSelect
         exercise={exercise}
-        updateTarget={(blockId, exerciseId, target) =>
+        updateTarget={(_, exerciseId, target) =>
           form.updateExercise(exerciseId, { target })
         }
         blockId={0}
