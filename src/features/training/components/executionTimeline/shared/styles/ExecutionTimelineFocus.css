@@ -1,0 +1,429 @@
+/* Focused exercise, step, rest, and timer presentation. */
+
+/* Block exercise cards shown beneath the current focus. */
+
+/* Selected activity steps are shown inline with the focus display. */
+.execution-timeline-children {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: var(--space-2);
+  overflow-x: auto;
+  padding-bottom: var(--space-2);
+}
+
+.execution-timeline-child {
+  flex: 0 0 140px;
+  min-width: 0;
+  align-content: start;
+}
+
+/* Preserve timer and completion controls */
+.execution-timeline-complete-all {
+  flex-shrink: 0;
+  margin: 0;
+}
+
+@media (max-width: 600px) {
+  .execution-focus {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
+  }
+
+  .execution-timeline-rows {
+    max-height: 26%;
+    gap: var(--space-1);
+    padding-right: 0;
+    padding-left: 0;
+  }
+
+  .execution-timeline-column.is-current .execution-timeline-main-marker,
+  .execution-timeline-column.is-selected .execution-timeline-main-marker {
+    width: 28px;
+    height: 28px;
+  }
+
+  .execution-timeline-child {
+    flex-basis: 130px;
+  }
+}
+
+/* Sets mode uses a centered exercise heading and compact set markers. */
+.execution-focus.mode-sets {
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  flex: 1 1 0;
+  width: 100%;
+  gap: var(--space-3);
+  overflow-y: auto;
+  text-align: center;
+}
+
+.execution-focus.mode-sets .execution-focus-copy {
+  flex: 0 0 auto;
+  width: 100%;
+  text-align: center;
+}
+
+.execution-focus.mode-sets .execution-focus-copy h2 {
+  font-size: clamp(2.5rem, 6vw, 5rem);
+}
+
+.execution-focus.mode-sets .execution-focus-steps {
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  gap: var(--space-2);
+  width: min(100%, 420px);
+  margin: 0;
+  padding: 0;
+  border: 0;
+  text-align: center;
+}
+
+.execution-focus.mode-sets .execution-focus-target {
+  margin-top: var(--space-2);
+}
+
+.execution-focus.mode-sets .execution-focus-set-list {
+  justify-content: center;
+  margin-top: var(--space-3);
+}
+
+.execution-focus.mode-sets .execution-focus-steps > span {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-xs);
+}
+
+/* Individual set completion controls. */
+.execution-focus-set-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-2);
+  color: var(--color-text-muted);
+  font-size: var(--font-size-xs);
+}
+
+.execution-focus-set-heading strong {
+  color: var(--color-text);
+  font-size: var(--font-size-sm);
+}
+
+.execution-focus-set-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.execution-focus-set {
+  display: grid;
+  width: 38px;
+  height: 38px;
+  place-items: center;
+  border: 1px solid var(--color-border-hover);
+  border-radius: var(--radius-full);
+  background: var(--color-bg);
+  color: var(--color-text-muted);
+  cursor: pointer;
+  font: inherit;
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+}
+
+.execution-focus-set.is-current {
+  border: 2px solid var(--timeline-accent);
+  color: var(--timeline-accent);
+}
+
+.execution-focus-set.is-completed {
+  border-color: var(--timeline-accent);
+  background: var(--timeline-accent);
+  color: #111827;
+}
+
+.execution-focus-set:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+/* Rest intervals between sets or exercise groups. */
+.execution-timeline-rest-marker {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  align-self: center;
+  list-style: none;
+}
+
+.execution-timeline-rest-marker button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: var(--space-1);
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  font: inherit;
+  font-size: 10px;
+  white-space: nowrap;
+}
+
+.execution-timeline-rest-marker button > span:first-child {
+  font-size: var(--font-size-md);
+  line-height: 1;
+}
+
+.execution-timeline-rest-marker button:hover {
+  background: color-mix(in srgb, var(--timeline-accent) 10%, transparent);
+  color: var(--timeline-accent);
+}
+
+.execution-timeline-rest-marker button:focus-visible {
+  outline: 2px solid var(--timeline-accent);
+  outline-offset: 2px;
+}
+
+.execution-focus-set:focus-visible,
+.execution-focus-inline-timer button:focus-visible {
+  outline: 2px solid var(--timeline-accent);
+  outline-offset: 3px;
+}
+
+/* Optional inline rest timer and its controls. */
+.execution-focus-set-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.execution-focus-set-actions .execution-timeline-complete-all {
+  margin: 0;
+}
+
+.execution-focus-inline-timer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--timeline-accent);
+}
+
+.execution-focus-inline-timer > strong {
+  font-family: var(--font-mono);
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  font-variant-numeric: tabular-nums;
+}
+
+.execution-focus-inline-timer > div {
+  display: flex;
+  gap: var(--space-1);
+}
+
+.execution-focus-inline-timer button {
+  padding: var(--space-1) var(--space-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-bg);
+  color: var(--color-text);
+  cursor: pointer;
+  font: inherit;
+  font-size: var(--font-size-xs);
+}
+
+.execution-focus-inline-timer button:hover {
+  border-color: var(--timeline-accent);
+}
+
+@media (max-width: 600px) {
+  /* Reduce the focus stack spacing on narrow screens. */
+  .execution-focus.mode-sets {
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: space-evenly;
+    flex: 1 1 0;
+    gap: var(--space-3);
+  }
+
+  .execution-focus.mode-sets .execution-focus-copy {
+    flex: 0 0 auto;
+  }
+
+  .execution-focus.mode-sets .execution-focus-copy h2 {
+    font-size: clamp(1.75rem, 8vw, 2.75rem);
+  }
+
+  .execution-focus.mode-sets .execution-focus-steps {
+    flex: 0 0 auto;
+    width: 100%;
+    align-items: center;
+    text-align: center;
+  }
+
+  .execution-focus.mode-sets .execution-focus-set-list {
+    margin-top: var(--space-3);
+  }
+
+  .execution-focus-set {
+    width: 32px;
+    height: 32px;
+  }
+
+  .execution-focus-set-actions {
+    align-items: stretch;
+    justify-content: center;
+  }
+}
+
+/* Sets timer display and icon controls. */
+.execution-focus-timer {
+  /* --timer-accent: #f59e0b; */
+
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--space-1);
+  text-align: center;
+}
+
+.execution-focus-timer > span {
+  color: var(--color-text-muted);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.execution-focus-timer-label {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-xs);
+}
+
+.execution-focus-timer-display {
+  color: var(--timer-accent);
+  font-family: var(--font-mono);
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+
+.execution-focus-timer-actions {
+  display: grid;
+  grid-template-columns: repeat(2, auto);
+  justify-content: center;
+  gap: var(--space-3);
+}
+
+.execution-focus-timer-actions button {
+  min-height: 30px;
+  padding: var(--space-1) var(--space-2);
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  font: inherit;
+  font-size: var(--font-size-xs);
+}
+
+.execution-focus-timer-actions button:first-child {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-1);
+}
+
+.execution-focus-timer-actions button:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--timer-accent) 12%, transparent);
+  color: var(--timer-accent);
+}
+
+.execution-focus-timer-actions button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.execution-focus-timer-actions button:focus-visible {
+  outline: 2px solid var(--timer-accent);
+  outline-offset: 3px;
+}
+
+@media (max-width: 600px) {
+  .execution-focus-timer-display {
+    font-size: clamp(2rem, 9vw, 2.75rem);
+  }
+
+  .execution-focus-timer-actions {
+    grid-template-columns: repeat(2, auto);
+  }
+}
+
+@media (max-width: 800px) {
+  /* Scale down group markers and tone down accents on mobile. */
+  .execution-timeline .execution-timeline-columns {
+    gap: 2px;
+    padding: var(--space-1) 0;
+  }
+
+  .execution-timeline .execution-timeline-column {
+    box-sizing: border-box;
+    min-width: 48px;
+    flex-basis: 48px;
+    gap: 2px;
+    padding: 4px 2px;
+  }
+
+  .execution-timeline .execution-timeline-main-marker {
+    width: 22px;
+    height: 22px;
+    font-size: 10px;
+  }
+
+  .execution-timeline .execution-timeline-column.is-current .execution-timeline-main-marker,
+  .execution-timeline .execution-timeline-column.is-selected .execution-timeline-main-marker {
+    width: 26px;
+    height: 26px;
+    font-size: 11px;
+  }
+
+  .execution-timeline .execution-timeline-column-label,
+  .execution-timeline .execution-timeline-column.is-current .execution-timeline-column-label,
+  .execution-timeline .execution-timeline-column.is-selected .execution-timeline-column-label {
+    font-size: 10px;
+  }
+
+  .execution-timeline .execution-timeline-column-detail {
+    font-size: 9px;
+  }
+
+  .execution-timeline .execution-timeline-column.is-current,
+  .execution-timeline .execution-timeline-column.is-selected {
+    border-color: transparent;
+    background: transparent;
+  }
+
+  .execution-timeline .execution-timeline-column.is-current .execution-timeline-main-marker,
+  .execution-timeline .execution-timeline-column.is-selected .execution-timeline-main-marker {
+    border-color: color-mix(in srgb, var(--timeline-accent) 65%, var(--color-border));
+    background: color-mix(in srgb, var(--timeline-accent) 18%, var(--color-bg));
+    box-shadow: none;
+    color: var(--color-text);
+  }
+
+  .execution-timeline .execution-timeline-column.is-completed .execution-timeline-main-marker {
+    border-color: color-mix(in srgb, var(--timeline-accent) 45%, var(--color-border));
+    background: color-mix(in srgb, var(--timeline-accent) 35%, var(--color-bg));
+    color: var(--color-text);
+  }
+
+  .execution-timeline .execution-timeline-column.is-current .execution-timeline-column-label,
+  .execution-timeline .execution-timeline-column.is-selected .execution-timeline-column-label {
+    color: var(--color-text);
+  }
+}

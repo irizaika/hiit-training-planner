@@ -5,7 +5,7 @@ import "./HiitTimer.css";
 import { TimerHeader } from "./components/Timer/TimerHeader";
 import { TimerDisplay } from "./components/Timer/TimerDisplay";
 import { ExerciseProgress } from "./components/Progress/ExerciseProgress";
-import { WorkoutProgress } from "./components/Progress/WorkoutProgress";
+import { WorkoutProgress } from "../../components/Progress/WorkoutProgress";
 import { TimerControls } from "./components/Timer/TimerControls";
 import { calculateTotalTime } from "../../utils/time";
 
@@ -80,8 +80,8 @@ export function HiitTimer({ selectedWorkout }: HiitTimerProps) {
       />
 
       <WorkoutProgress
-        currentRound={timer.currentRound}
-        totalRounds={timer.totalRounds}
+        current={timer.currentRound}
+        total={timer.totalRounds}
         progress={progress}
       />
 

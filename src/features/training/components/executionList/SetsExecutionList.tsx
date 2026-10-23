@@ -1,4 +1,4 @@
-import type { SetsWorkout } from "../../../models/workout";
+import type { SetsWorkout } from "../../../../models/workout";
 import { ExerciseTarget } from "./ExerciseTarget";
 import { ExecutionExercise } from "./ExecutionExercise";
 import { RestAction } from "./RestAction";

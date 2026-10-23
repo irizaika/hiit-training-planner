@@ -1,6 +1,6 @@
 
-import type { WorkoutExercise } from "../../../models/workout";
-import { formatTime } from "../../../utils/time";
+import type { WorkoutExercise } from "../../../../models/workout";
+import { formatTime } from "../../../../utils/time";
 
 export function ExerciseTarget({ exercise }: { exercise: WorkoutExercise }) {
   const target = exercise.target;

@@ -1,5 +1,5 @@
-import type { WorkoutExercise } from "../../../models/workout";
-import { formatTime } from "../../../utils/time";
+import type { WorkoutExercise } from "../../../../models/workout";
+import { formatTime } from "../../../../utils/time";
 import { ExerciseTarget } from "./ExerciseTarget";
 import "./ExecutionExercise.css";
 

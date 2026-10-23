@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 import "./WorkoutHeader.css";
 
 interface WorkoutHeaderProps {
-  status: string;
+  status?: string;
   title: string;
   meta?: ReactNode;
   details?: ReactNode;
@@ -21,9 +21,11 @@ export function WorkoutHeader({
   return (
     <header className={`timer-header ${className ?? ""}`}>
       <div className="timer-workout-details">
-        <div className="timer-status-row">
-          <p className="eyebrow">{status}</p>
-        </div>
+        {status && (
+          <div className="timer-status-row">
+            <p className="eyebrow">{status}</p>
+          </div>
+        )}
 
         <div className="row">
           <h4>{title}</h4>

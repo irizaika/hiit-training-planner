@@ -1,5 +1,5 @@
-import type { RestConfig } from "../../../models/workout";
-import { formatTime } from "../../../utils/time";
+import type { RestConfig } from "../../../../models/workout";
+import { formatTime } from "../../../../utils/time";
 import "./RestAction.css";
 
 export function RestAction({
