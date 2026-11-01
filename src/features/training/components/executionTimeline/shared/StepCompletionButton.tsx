@@ -1,6 +1,6 @@
-import type { TimelineStep } from "../shared/timelineTypes";
+import type { TimelineStep } from "./timelineTypes";
 
-interface SetCompletionButtonProps {
+interface StepCompletionButtonProps {
   isCompleted: boolean;
   isCurrent: boolean;
   disabled: boolean;
@@ -9,16 +9,16 @@ interface SetCompletionButtonProps {
   index: number;
 }
 
-export function SetCompletionButton({
+export function StepCompletionButton({
   isCompleted,
   isCurrent,
   disabled,
   onToggleStep,
   step,
   index,
-}: SetCompletionButtonProps) {
+}: StepCompletionButtonProps) {
   const className = [
-    "execution-focus-set",
+    "execution-focus-step",
     isCompleted && "is-completed",
     isCurrent && "is-current",
   ]
@@ -26,7 +26,7 @@ export function SetCompletionButton({
     .join(" ");
 
   const accessibleLabel = [
-    `Set ${index + 1}`,
+    step.label,
     isCurrent && "current",
     isCompleted && "completed",
     disabled && "unavailable during rest",

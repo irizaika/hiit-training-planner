@@ -15,6 +15,16 @@
   min-width: 0;
 }
 
+.execution-timeline-block-rows {
+  display: flex;
+  min-width: 0;
+  gap: var(--space-2);
+}
+
+.execution-timeline-block-rows > .execution-timeline-row {
+  flex: 1 1 0;
+}
+
 .execution-timeline-columns {
   display: flex;
   flex-wrap: nowrap;
@@ -65,9 +75,7 @@
 }
 
 .execution-timeline-select:focus-visible,
-.execution-timeline-child-toggle:focus-visible,
 .execution-timeline-complete-all:focus-visible,
-.execution-timeline-timer-button:focus-visible,
 .execution-focus-timer-controls button:focus-visible {
   outline: 2px solid var(--timeline-accent);
   outline-offset: 3px;
@@ -110,8 +118,7 @@
 }
 
 /* Use the row accent to distinguish timeline status. */
-.execution-timeline-column.is-completed .execution-timeline-main-marker,
-.execution-timeline-child.is-completed .execution-timeline-child-marker {
+.execution-timeline-column.is-completed .execution-timeline-main-marker {
   border-color: var(--timeline-accent);
   background: var(--timeline-accent);
   color: #111827;
@@ -154,40 +161,15 @@
   opacity: 0.65;
 }
 
-.execution-focus-steps {
+.execution-focus-timer-container {
+  display: flex;
+  flex: 0 0 auto;
+  justify-content: center;
   width: 100%;
   min-width: 0;
-  margin-top: var(--space-2);
-  padding-top: var(--space-3);
-  border-top: 1px solid color-mix(in srgb, var(--timeline-accent) 28%, var(--color-border));
-  text-align: left;
 }
 
-.execution-focus-steps-heading {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-2);
-  margin-bottom: var(--space-2);
-}
-
-.execution-focus-steps-heading > div {
-  display: flex;
-  align-items: baseline;
-  gap: var(--space-2);
-  min-width: 0;
-}
-
-.execution-focus-group-name {
-  overflow: hidden;
-  color: var(--color-text);
-  font-size: var(--font-size-sm);
-  font-weight: 700;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.execution-focus-steps .execution-timeline-complete-all {
+.execution-focus-timer-container .execution-timeline-complete-all {
   flex-shrink: 0;
   margin: 0;
 }
@@ -205,133 +187,22 @@
   font-size: var(--font-size-xs);
 }
 
-.execution-timeline-complete-all:hover,
-.execution-timeline-timer-button:hover {
+.execution-timeline-complete-all:hover {
   border-color: var(--timeline-accent);
 }
 
-.execution-timeline-children {
-  display: flex;
-  width: 100%;
-  gap: var(--space-2);
-  overflow-x: auto;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  scrollbar-width: thin;
-  scrollbar-color: var(--color-border-hover) transparent;
-}
-
-.execution-timeline-child {
-  display: flex;
-  flex: 0 0 132px;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: var(--space-1);
-  min-width: 0;
-  padding: var(--space-1);
-  border-radius: var(--radius-sm);
-  background: color-mix(in srgb, var(--color-bg) 75%, transparent);
-}
-
-.execution-timeline-child.is-current {
-  background: color-mix(in srgb, var(--timeline-accent) 14%, var(--color-bg));
-}
-
-.execution-timeline-child-toggle {
-  display: flex;
-  width: 100%;
-  min-width: 0;
-  align-items: flex-start;
-  gap: var(--space-2);
-  padding: 0;
-  border: 0;
-  background: transparent;
-  color: var(--color-text);
-  cursor: pointer;
-  text-align: left;
-}
-
-.execution-timeline-child-marker {
-  display: grid;
-  width: 24px;
-  height: 24px;
-  flex-shrink: 0;
-  place-items: center;
-  border: 1px solid var(--color-border-hover);
-  border-radius: var(--radius-full);
-  background: var(--color-bg);
-  color: var(--color-text-muted);
-  font-size: 11px;
-  font-weight: 700;
-}
-
-.execution-timeline-child-label {
-  min-width: 0;
-  overflow: hidden;
-  font-size: var(--font-size-xs);
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.execution-timeline-child.is-completed .execution-timeline-child-label {
-  color: var(--color-text-muted);
-  text-decoration: line-through;
-}
-
-.execution-timeline-child.is-current .execution-timeline-child-marker {
-  border: 2px solid var(--timeline-accent);
-  color: var(--timeline-accent);
-}
-
-.execution-timeline-child.is-current .execution-timeline-child-label {
-  color: var(--timeline-accent);
-  font-weight: 700;
-}
-
-.execution-timeline-child-actions {
-  display: flex;
-  width: 100%;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: var(--space-1);
-  padding-left: 32px;
-}
-
-.execution-timeline-child-actions .execution-target {
-  display: inline-block;
-  padding: 2px var(--space-1);
-  border-radius: var(--radius-sm);
-  background: var(--color-surface);
-  color: var(--color-text-muted);
-  font-size: 11px;
-}
-
-.execution-timeline-timer-button {
-  padding: 2px var(--space-1);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-sm);
-  background: var(--color-bg);
-  color: var(--color-text);
-  cursor: pointer;
-  font: inherit;
-  font-size: 11px;
-}
-
-.execution-timeline-child-actions .execution-rest-button {
-  margin: 0;
-}
-
 @media (max-width: 600px) {
+  .execution-timeline-block-rows {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   /* Keep the selected exercise prominent while the timeline stays compact. */
   .execution-focus {
     min-height: 0;
     padding: var(--space-3) 0;
   }
 
-  .execution-timeline-child {
-    flex-basis: 116px;
-  }
 }
 
 .execution-timeline-row-label {

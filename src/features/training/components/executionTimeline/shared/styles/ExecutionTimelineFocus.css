@@ -1,22 +1,5 @@
 /* Focused exercise, step, rest, and timer presentation. */
 
-/* Block exercise cards shown beneath the current focus. */
-
-/* Selected activity steps are shown inline with the focus display. */
-.execution-timeline-children {
-  display: flex;
-  flex-wrap: nowrap;
-  gap: var(--space-2);
-  overflow-x: auto;
-  padding-bottom: var(--space-2);
-}
-
-.execution-timeline-child {
-  flex: 0 0 140px;
-  min-width: 0;
-  align-content: start;
-}
-
 /* Preserve timer and completion controls */
 .execution-timeline-complete-all {
   flex-shrink: 0;
@@ -43,9 +26,6 @@
     height: 28px;
   }
 
-  .execution-timeline-child {
-    flex-basis: 130px;
-  }
 }
 
 /* Sets mode uses a centered exercise heading and compact set markers. */
@@ -70,7 +50,7 @@
   font-size: clamp(2.5rem, 6vw, 5rem);
 }
 
-.execution-focus.mode-sets .execution-focus-steps {
+.execution-focus.mode-sets .execution-focus-timer-container {
   display: flex;
   flex: 0 0 auto;
   flex-direction: column;
@@ -86,18 +66,45 @@
   margin-top: var(--space-2);
 }
 
-.execution-focus.mode-sets .execution-focus-set-list {
+.execution-focus.mode-sets .execution-focus-step-list {
   justify-content: center;
   margin-top: var(--space-3);
 }
 
-.execution-focus.mode-sets .execution-focus-steps > span {
-  color: var(--color-text-muted);
-  font-size: var(--font-size-xs);
+.execution-focus.mode-sets .execution-focus-step-section {
+  width: min(100%, 420px);
+}
+
+.execution-focus.mode-blocks {
+  flex: 1 1 0;
+  width: 100%;
+  align-items: center;
+  justify-content: space-evenly;
+  gap: var(--space-3);
+  overflow-y: auto;
+  text-align: center;
+}
+
+.execution-focus.mode-blocks .execution-focus-copy {
+  flex: 0 0 auto;
+  width: 100%;
+  text-align: center;
+}
+
+.execution-focus.mode-blocks .execution-focus-copy h2 {
+  font-size: clamp(2.5rem, 6vw, 5rem);
+}
+
+.execution-focus-step-section {
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  gap: var(--space-2);
+  width: min(100%, 560px);
 }
 
 /* Individual set completion controls. */
-.execution-focus-set-heading {
+.execution-focus-step-heading {
   display: flex;
   align-items: baseline;
   justify-content: space-between;
@@ -106,21 +113,44 @@
   font-size: var(--font-size-xs);
 }
 
-.execution-focus-set-heading strong {
+.execution-focus-step-heading strong {
   color: var(--color-text);
   font-size: var(--font-size-sm);
 }
 
-.execution-focus-set-list {
+.execution-focus-step-heading > div {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  min-width: 0;
+}
+
+.execution-focus-group-name {
+  overflow: hidden;
+  color: var(--color-text);
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.execution-focus-group-progress {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-xs);
+  font-variant-numeric: tabular-nums;
+}
+
+.execution-focus-step-list {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
   gap: var(--space-2);
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
-.execution-focus-set {
+.execution-focus-step {
   display: grid;
   width: 38px;
   height: 38px;
@@ -135,20 +165,25 @@
   font-weight: 700;
 }
 
-.execution-focus-set.is-current {
+.execution-focus-step.is-current {
   border: 2px solid var(--timeline-accent);
   color: var(--timeline-accent);
 }
 
-.execution-focus-set.is-completed {
+.execution-focus-step.is-completed {
   border-color: var(--timeline-accent);
   background: var(--timeline-accent);
   color: #111827;
 }
 
-.execution-focus-set:disabled {
+.execution-focus-step:disabled {
   cursor: not-allowed;
   opacity: 0.55;
+}
+
+.execution-focus-step-heading .execution-timeline-complete-all {
+  flex-shrink: 0;
+  margin: 0;
 }
 
 /* Rest intervals between sets or exercise groups. */
@@ -192,55 +227,10 @@
   outline-offset: 2px;
 }
 
-.execution-focus-set:focus-visible,
-.execution-focus-inline-timer button:focus-visible {
+.execution-focus-step:focus-visible,
+.execution-focus-timer-actions button:focus-visible {
   outline: 2px solid var(--timeline-accent);
   outline-offset: 3px;
-}
-
-/* Optional inline rest timer and its controls. */
-.execution-focus-set-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-2);
-}
-
-.execution-focus-set-actions .execution-timeline-complete-all {
-  margin: 0;
-}
-
-.execution-focus-inline-timer {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: var(--space-2);
-  color: var(--timeline-accent);
-}
-
-.execution-focus-inline-timer > strong {
-  font-family: var(--font-mono);
-  font-size: clamp(1.75rem, 4vw, 2.5rem);
-  font-variant-numeric: tabular-nums;
-}
-
-.execution-focus-inline-timer > div {
-  display: flex;
-  gap: var(--space-1);
-}
-
-.execution-focus-inline-timer button {
-  padding: var(--space-1) var(--space-2);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-sm);
-  background: var(--color-bg);
-  color: var(--color-text);
-  cursor: pointer;
-  font: inherit;
-  font-size: var(--font-size-xs);
-}
-
-.execution-focus-inline-timer button:hover {
-  border-color: var(--timeline-accent);
 }
 
 @media (max-width: 600px) {
@@ -261,26 +251,34 @@
     font-size: clamp(1.75rem, 8vw, 2.75rem);
   }
 
-  .execution-focus.mode-sets .execution-focus-steps {
+  .execution-focus.mode-blocks {
+    align-items: stretch;
+  }
+
+  .execution-focus.mode-blocks .execution-focus-copy h2 {
+    font-size: clamp(1.75rem, 8vw, 2.75rem);
+  }
+
+  .execution-focus.mode-blocks .execution-focus-step-section {
+    width: 100%;
+  }
+
+  .execution-focus.mode-sets .execution-focus-timer-container {
     flex: 0 0 auto;
     width: 100%;
     align-items: center;
     text-align: center;
   }
 
-  .execution-focus.mode-sets .execution-focus-set-list {
+  .execution-focus.mode-sets .execution-focus-step-list {
     margin-top: var(--space-3);
   }
 
-  .execution-focus-set {
+  .execution-focus-step {
     width: 32px;
     height: 32px;
   }
 
-  .execution-focus-set-actions {
-    align-items: stretch;
-    justify-content: center;
-  }
 }
 
 /* Sets timer display and icon controls. */

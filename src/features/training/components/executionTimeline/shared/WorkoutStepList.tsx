@@ -1,36 +1,42 @@
 import { Fragment } from "react";
-import type { TimelineStep } from "../shared/timelineTypes";
-import { RestTimerMarker } from "../shared/RestTimerMarker";
 import type { TrainingExecutionState } from "../../../hooks/useTrainingExecution";
-import { SetCompletionButton } from "./SetCompletionButton";
+import { StepCompletionButton } from "./StepCompletionButton";
+import { RestTimerMarker } from "./RestTimerMarker";
+import type { TimelineStep } from "./timelineTypes";
 
-interface SetCompletionMarkersProps {
+interface WorkoutStepListProps {
   steps: TimelineStep[];
   focusStep: TimelineStep;
   completed: Record<string, boolean>;
   isResting: boolean;
+  label: string;
   onToggleStep: (step: TimelineStep) => void;
-  execution: TrainingExecutionState;
+  onStartTimer: TrainingExecutionState["startTimer"];
 }
 
-export function SetCompletionMarkers({
+export function WorkoutStepList({
   steps,
   focusStep,
   completed,
   isResting,
+  label,
   onToggleStep,
-  execution,
-}: SetCompletionMarkersProps) {
+  onStartTimer,
+}: WorkoutStepListProps) {
   return (
-    <ol className="execution-focus-set-list" aria-label="Exercise sets">
+    <ol
+      className="execution-focus-step-list"
+      aria-label={label}
+    >
       {steps.map((step, index) => {
-        const isCompleted = completed[step.key];
-        const isCurrent = step.key === focusStep.key && !isCompleted;
+        const isCompleted = Boolean(completed[step.key]);
+        const isCurrent =
+          step.key === focusStep.key && !isCompleted;
 
         return (
           <Fragment key={step.key}>
             <li>
-              <SetCompletionButton
+              <StepCompletionButton
                 isCompleted={isCompleted}
                 isCurrent={isCurrent}
                 disabled={isResting}
@@ -39,9 +45,10 @@ export function SetCompletionMarkers({
                 index={index}
               />
             </li>
+
             <RestTimerMarker
               label={step.exercise.name}
-              onStart={execution.startTimer}
+              onStart={onStartTimer}
               restAfter={step.restAfter}
             />
           </Fragment>

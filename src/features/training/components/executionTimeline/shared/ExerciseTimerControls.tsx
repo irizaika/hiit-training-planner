@@ -2,8 +2,6 @@ import { formatTime } from "../../../../../utils/time";
 import type { TrainingExecutionState } from "../../../hooks/useTrainingExecution";
 
 interface ExerciseTimerControlsProps {
-  timerLabel: string;
-  displayedSeconds: number | undefined;
   startSeconds: number | undefined;
   startLabel: string;
   stepKey: string;
@@ -13,8 +11,6 @@ interface ExerciseTimerControlsProps {
 }
 
 export function ExerciseTimerControls({
-  timerLabel,
-  displayedSeconds,
   startSeconds,
   startLabel,
   stepKey,
@@ -23,15 +19,25 @@ export function ExerciseTimerControls({
   execution,
 }: ExerciseTimerControlsProps) {
   const timer = execution.timer;
+  const timerForCurrentStep =
+    (timer?.purpose === "rest" && timer.remainingSeconds > 0) ||
+    timer?.completesStep?.key === stepKey
+      ? timer
+      : null;
   const canStart =
     startSeconds !== undefined &&
     startSeconds > 0 &&
-    (timer === null || timer.remainingSeconds > 0 || isExerciseTimer);
+    (!timerForCurrentStep ||
+      timerForCurrentStep.remainingSeconds === 0 ||
+      isExerciseTimer);
 
   function handleStartStop() {
-    if (timer?.isRunning) {
+    if (timerForCurrentStep?.isRunning) {
       execution.pauseTimer();
-    } else if (timer && timer.remainingSeconds > 0) {
+    } else if (
+      timerForCurrentStep &&
+      timerForCurrentStep.remainingSeconds > 0
+    ) {
       execution.resumeTimer();
     } else if (canStart) {
       if (isExerciseTimer) {
@@ -47,11 +53,14 @@ export function ExerciseTimerControls({
     }
   }
 
-  const label = timer?.isRunning
+  const label = timerForCurrentStep?.isRunning
     ? "Pause timer"
-    : timer && timer.remainingSeconds > 0
+    : timerForCurrentStep && timerForCurrentStep.remainingSeconds > 0
       ? "Resume timer"
       : "Start timer";
+  const timerLabel = timerForCurrentStep?.label ?? startLabel;
+  const displayedSeconds =
+    timerForCurrentStep?.remainingSeconds ?? startSeconds;
 
   return (
     <div className="execution-focus-timer">
@@ -65,16 +74,14 @@ export function ExerciseTimerControls({
         <button
           type="button"
           className="is-start-stop"
-          disabled={
-            !timer?.isRunning &&
-            !(timer && timer.remainingSeconds > 0) &&
-            !canStart
-          }
+          disabled={!timerForCurrentStep?.isRunning &&
+            !(timerForCurrentStep && timerForCurrentStep.remainingSeconds > 0) &&
+            !canStart}
           aria-label={label}
           title={label}
           onClick={handleStartStop}
         >
-          <span aria-hidden="true">{timer?.isRunning ? "⏸" : "▷"}</span>
+          <span aria-hidden="true">{timerForCurrentStep?.isRunning ? "⏸" : "▷"}</span>
         </button>
         <button
           type="button"

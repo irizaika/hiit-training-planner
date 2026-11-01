@@ -1,15 +1,14 @@
 import type { TrainingExecutionState } from "../../../hooks/useTrainingExecution";
 import type { TimelineGroup, TimelineStep } from "../shared/timelineTypes";
-import { ExerciseTimerControls } from "./ExerciseTimerControls";
-import { FocusedExerciseDetails } from "./FocusedExerciseDetails";
-import { SetCompletionMarkers } from "./SetCompletionMarkers";
+import { ExerciseTimerControls } from "../shared/ExerciseTimerControls";
+import { FocusedExerciseDetails } from "../shared/FocusedExerciseDetails";
+import { WorkoutStepMarkers } from "../shared/WorkoutStepMarkers";
+import { getExerciseTimerSeconds } from "../shared/getExerciseTimerSeconds";
 
 interface SetsWorkoutFocusProps {
   workoutName: string;
   selectedGroup: TimelineGroup;
   focusStep: TimelineStep;
-  completedCount: number;
-  total: number;
   execution: TrainingExecutionState;
   restSeconds: number | undefined;
   onToggleStep: (step: TimelineStep) => void;
@@ -19,14 +18,11 @@ export function SetsWorkoutFocus({
   workoutName,
   selectedGroup,
   focusStep,
-  completedCount,
-  total,
   execution,
   restSeconds,
   onToggleStep,
 }: SetsWorkoutFocusProps) {
   const { completed, timer } = execution;
-  const isWorkoutComplete = completedCount === total;
   const isResting = timer?.purpose === "rest" && timer.remainingSeconds > 0;
   const isExerciseTimerActive =
     timer?.purpose === "exercise" && timer.remainingSeconds > 0;
@@ -39,21 +35,15 @@ export function SetsWorkoutFocus({
     (step) => completed[step.key],
   );
 
-  const exerciseTimer = focusStep.exercise.timer;
+  const exerciseTimerSeconds = getExerciseTimerSeconds(focusStep.exercise);
 
   const startSeconds =
-    exerciseTimer?.enabled && exerciseTimer.seconds > 0
-      ? exerciseTimer.seconds
-      : restSeconds;
+    exerciseTimerSeconds ?? restSeconds;
 
   const startLabel =
-    exerciseTimer?.enabled && exerciseTimer.seconds > 0
+    exerciseTimerSeconds !== undefined
       ? focusStep.exercise.name
       : "Rest";
-
-  const displayedSeconds = timer?.remainingSeconds ?? startSeconds;
-
-  const timerLabel = timer?.label ?? (startSeconds ? startLabel : "Timer");
 
   const repsTarget =
     focusStep.exercise.target?.type === "reps"
@@ -64,7 +54,7 @@ export function SetsWorkoutFocus({
     ? "ALL SETS COMPLETE"
     : `SET ${currentSetIndex + 1} OF ${selectedGroup.children.length}`;
 
-  const statusLablel = isResting
+  const statusLabel = isResting
     ? `UP NEXT · ${setHeading}`
     : isExerciseTimerActive
       ? `WORKING NOW · ${setHeading}`
@@ -72,15 +62,13 @@ export function SetsWorkoutFocus({
 
   return (
     <section className="execution-focus mode-sets" aria-live="polite">
-      <div className="execution-focus-steps">
+      <div className="execution-focus-timer-container">
         <ExerciseTimerControls
-          timerLabel={timerLabel}
-          displayedSeconds={displayedSeconds}
           startSeconds={startSeconds}
           startLabel={startLabel}
           stepKey={focusStep.key}
           restSeconds={restSeconds}
-          isExerciseTimer={exerciseTimer?.enabled === true}
+          isExerciseTimer={exerciseTimerSeconds !== undefined}
           execution={execution}
         />
       </div>
@@ -88,19 +76,19 @@ export function SetsWorkoutFocus({
       <FocusedExerciseDetails
         workoutName={workoutName}
         exercise={focusStep.exercise}
-        isWorkoutComplete={isWorkoutComplete}
-        setHeading={setHeading}
-        repsTarget={repsTarget}
-        statusLabel={statusLablel}
+        eyebrow={statusLabel ?? setHeading}
+        detail={repsTarget}
+        showExerciseTarget={!repsTarget}
       />
 
-      <SetCompletionMarkers
+      <WorkoutStepMarkers
         steps={selectedGroup.children}
         focusStep={focusStep}
         completed={execution.completed}
         isResting={isResting}
+        label="Exercise sets"
         onToggleStep={onToggleStep}
-        execution={execution}
+        onStartTimer={execution.startTimer}
       />
     </section>
   );

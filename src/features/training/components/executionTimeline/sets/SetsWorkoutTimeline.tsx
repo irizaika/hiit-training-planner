@@ -78,13 +78,11 @@ export function SetsWorkoutTimeline({
       aria-label="Workout timeline"
     >
       <SetsWorkoutFocus
-        completedCount={completedCount}
         execution={execution}
         focusStep={focusStep}
         onToggleStep={toggleStep}
         restSeconds={restSeconds}
         selectedGroup={selectedGroup}
-        total={total}
         workoutName={workout.name}
       />
       <WorkoutProgress
