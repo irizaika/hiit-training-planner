@@ -1,0 +1,278 @@
+/* Compact, horizontally scrollable workout navigation. */
+.execution-timeline-rows {
+  flex: 0 0 auto;
+  min-height: 0;
+  max-height: 28%;
+  overflow-y: auto;
+  display: grid;
+  align-content: start;
+  gap: var(--space-2);
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-border-hover) transparent;
+}
+
+.execution-timeline-row {
+  min-width: 0;
+}
+
+.execution-timeline-block-rows {
+  display: flex;
+  min-width: 0;
+  gap: var(--space-2);
+}
+
+.execution-timeline-block-rows > .execution-timeline-row {
+  flex: 1 1 0;
+}
+
+.execution-timeline-columns {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: var(--space-1);
+  overflow-x: auto;
+  margin: 0;
+  padding: var(--space-1) var(--space-1) var(--space-2);
+  list-style: none;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-border-hover) transparent;
+}
+
+.execution-timeline-column {
+  position: relative;
+  display: flex;
+  min-width: 68px;
+  flex: 0 0 68px;
+  flex-direction: column;
+  align-items: center;
+  align-self: flex-start;
+  gap: var(--space-1);
+  padding: var(--space-2);
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
+  color: var(--color-text-muted);
+  text-align: center;
+  transition:
+    border-color 160ms ease,
+    background-color 160ms ease,
+    transform 160ms ease;
+}
+
+.execution-timeline-select {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-1);
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+}
+
+.execution-timeline-select:focus-visible,
+.execution-timeline-complete-all:focus-visible,
+.execution-focus-timer-controls button:focus-visible {
+  outline: 2px solid var(--timeline-accent);
+  outline-offset: 3px;
+}
+
+.execution-timeline-main-marker {
+  display: grid;
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  place-items: center;
+  border: 2px solid var(--color-border-hover);
+  border-radius: var(--radius-full);
+  background: var(--color-bg);
+  color: var(--color-text-muted);
+  font-size: var(--font-size-xs);
+  font-weight: 800;
+  transition:
+    width 160ms ease,
+    height 160ms ease,
+    border-color 160ms ease,
+    background-color 160ms ease,
+    color 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.execution-timeline-column-label {
+  width: 100%;
+  overflow: hidden;
+  color: var(--color-text);
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.execution-timeline-column-detail {
+  color: var(--color-text-muted);
+  font-size: 11px;
+}
+
+/* Use the row accent to distinguish timeline status. */
+.execution-timeline-column.is-completed .execution-timeline-main-marker {
+  border-color: var(--timeline-accent);
+  background: var(--timeline-accent);
+  color: #111827;
+}
+
+.execution-timeline-column.is-completed:not(:last-child)::after {
+  background: var(--timeline-accent);
+}
+
+.execution-timeline-column.is-completed .execution-timeline-column-label {
+  color: var(--color-text-muted);
+}
+
+.execution-timeline-column.is-current,
+.execution-timeline-column.is-selected {
+  transform: none;
+  border-color: color-mix(in srgb, var(--timeline-accent) 60%, transparent);
+  background: color-mix(in srgb, var(--timeline-accent) 9%, var(--color-bg));
+}
+
+.execution-timeline-column.is-current .execution-timeline-main-marker,
+.execution-timeline-column.is-selected .execution-timeline-main-marker {
+  width: 32px;
+  height: 32px;
+  border-color: var(--timeline-accent);
+  background: var(--timeline-accent);
+  box-shadow: 0 0 0 3px
+    color-mix(in srgb, var(--timeline-accent) 18%, transparent);
+  color: #111827;
+  font-size: var(--font-size-sm);
+}
+
+.execution-timeline-column.is-current .execution-timeline-column-label,
+.execution-timeline-column.is-selected .execution-timeline-column-label {
+  color: var(--timeline-accent);
+  font-size: var(--font-size-sm);
+}
+
+.execution-timeline-column.is-upcoming .execution-timeline-main-marker {
+  opacity: 0.65;
+}
+
+.execution-focus-timer-container {
+  display: flex;
+  flex: 0 0 auto;
+  justify-content: center;
+  width: 100%;
+  min-width: 0;
+}
+
+.execution-focus-timer-container .execution-timeline-complete-all {
+  flex-shrink: 0;
+  margin: 0;
+}
+
+.execution-timeline-complete-all {
+  display: block;
+  margin: 0 0 var(--space-2) auto;
+  padding: var(--space-1) var(--space-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-bg);
+  color: var(--color-text);
+  cursor: pointer;
+  font: inherit;
+  font-size: var(--font-size-xs);
+}
+
+.execution-timeline-complete-all:hover {
+  border-color: var(--timeline-accent);
+}
+
+@media (max-width: 600px) {
+  .execution-timeline-block-rows {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  /* Keep the selected exercise prominent while the timeline stays compact. */
+  .execution-focus {
+    min-height: 0;
+    padding: var(--space-3) 0;
+  }
+
+}
+
+.execution-timeline-row-label {
+  margin: 0 0 var(--space-1);
+  color: var(--timeline-accent);
+  font-size: var(--font-size-xs);
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.execution-timeline-row-label span {
+  margin-left: var(--space-2);
+  color: var(--color-text-muted);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: normal;
+  text-transform: none;
+}
+
+.timeline-color-0 {
+  --timeline-accent: #38bdf8;
+}
+
+.timeline-color-1 {
+  --timeline-accent: #a78bfa;
+}
+
+.timeline-color-2 {
+  --timeline-accent: #fb923c;
+}
+
+.timeline-color-3 {
+  --timeline-accent: #34d399;
+}
+
+.timeline-color-4 {
+  --timeline-accent: #f472b6;
+}
+
+@media (max-width: 600px) {
+  .execution-focus {
+    min-height: 150px;
+    gap: var(--space-3);
+    padding: var(--space-3) 0;
+  }
+
+  .execution-focus-timer-controls {
+    align-items: center;
+  }
+
+  .execution-focus-time {
+    font-size: clamp(5rem, 25vw, 8rem);
+  }
+
+  .execution-focus-timer-controls > div {
+    justify-content: center;
+  }
+
+  .execution-timeline-column {
+    min-width: 60px;
+    flex-basis: 60px;
+  }
+
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .execution-timeline-column,
+  .execution-timeline-main-marker,
+  .execution-focus-timer-controls button {
+    transition: none;
+  }
+}

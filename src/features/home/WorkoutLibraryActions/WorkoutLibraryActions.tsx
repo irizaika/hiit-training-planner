@@ -5,7 +5,7 @@ import { useWorkouts } from "../../../context/useWorkout";
 import "./WorkoutLibraryActions.css";
 
 export function WorkoutLibraryActions() {
-  const { workouts, setHiitWorkouts, setRoundWorkouts, setSetWorkouts } =
+  const { workouts, setHiitWorkouts, setTrainingWorkouts } =
     useWorkouts();
 
   const handleExport = () => {
@@ -29,8 +29,7 @@ export function WorkoutLibraryActions() {
         const importedWorkouts = await importWorkouts(file);
 
         setHiitWorkouts(importedWorkouts.hiit);
-        setRoundWorkouts(importedWorkouts.rounds);
-        setSetWorkouts(importedWorkouts.sets);
+        setTrainingWorkouts(importedWorkouts.trainings);
       } catch (error) {
         console.error(error);
 

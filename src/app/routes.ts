@@ -1,10 +1,7 @@
 export const routes = {
   home: "/hiit-training-planner/",
   hiit: "/hiit-training-planner/hiit",
-  hiitCreate: "/hiit/create",
-  hiitTimer: "/hiit/timer",
-  rounds: "/hiit-training-planner/rounds",
-  sets: "/hiit-training-planner/sets",
+  training: "/hiit-training-planner/training",
 } as const;
 
 export type AppRoute = (typeof routes)[keyof typeof routes];
@@ -16,11 +13,8 @@ export function getCurrentRoute(): AppRoute {
     case routes.hiit:
       return routes.hiit;
 
-    case routes.rounds:
-      return routes.rounds;
-
-    case routes.sets:
-      return routes.sets;
+    case routes.training:
+      return routes.training;
 
     default:
       return routes.home;

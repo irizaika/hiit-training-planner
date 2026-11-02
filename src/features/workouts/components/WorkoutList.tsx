@@ -21,7 +21,7 @@ export function WorkoutList({
 }: WorkoutListProps) {
   return (
     <div className="workout-list">
-      {workouts.map((workout) => (
+      { workouts.map((workout) => (
         <WorkoutCard
           key={workout.id}
           workout={workout}

@@ -1,6 +1,6 @@
 import type { Workout } from "../../../models/workout";
 import { WorkoutMenu } from "./WorkoutMenu";
-import "./WorkoutCard.css"
+import "./WorkoutCard.css";
 
 interface WorkoutCardProps {
   workout: Workout;
@@ -29,11 +29,7 @@ export function WorkoutCard({
         <div className="workout-card-content">
           <h2>{workout.name}</h2>
 
-          <p>
-            {getWorkoutDescription(workout)}
-            <span className="workout-separator"> · </span>
-            {getWorkoutMeta(workout)}
-          </p>
+          <p>{getWorkoutSummary(workout)}</p>
         </div>
       </button>
 
@@ -47,35 +43,57 @@ export function WorkoutCard({
   );
 }
 
-function getWorkoutDescription(workout: Workout): string {
+function getWorkoutSummary(workout: Workout): string {
   switch (workout.type) {
     case "hiit": {
       const details = [
         `${workout.workSeconds}s work`,
         workout.restEnabled && `${workout.restSeconds}s rest`,
-        workout.roundRestEnabled &&
-          `${workout.roundRestSeconds}s round rest`,
+        workout.roundRestEnabled && `${workout.roundRestSeconds}s round rest`,
         `${workout.exercises.length} exercises`,
+        `${workout.rounds} rounds`,
       ].filter(Boolean);
 
       return details.join(" · ");
     }
 
-    case "rounds":
-      return `${workout.rounds.length} exercises per round`;
-
-    case "sets":
-      return `${workout.exercises.length} exercises`;
+    case "training":
+      return getTrainingSummary(workout);
   }
 }
 
-function getWorkoutMeta(workout: Workout): string {
-  switch (workout.type) {
-    case "hiit":
-      return `${workout.rounds} rounds`;
-    case "rounds":
-      return `${workout.repeatCount} repeats`;
-    case "sets":
-      return `${workout.sets} sets`;
+function getTrainingSummary(
+  workout: Extract<Workout, { type: "training" }>,
+): string {
+  if (workout.mode == "sets" && workout !=null && workout.exercises !=null) {
+
+    const details = `${workout.exercises.length} exercises`;
+    return details;
+
+  } else if (workout.mode == "circular" || workout.mode == "supersets" ){
+    const exerciseCount = workout.blocks.reduce(
+      (total, block) => total + block.exercises.length,
+      0,
+    );
+
+    const repeatCounts = workout.blocks
+      .map((block) => block.repeatCount)
+      .join(" + ");
+
+    const hasMultipleBlocks = workout.blocks.length > 1;
+
+    const details = [
+      hasMultipleBlocks
+        ? `${workout.blocks.length} blocks`
+        : `${exerciseCount} exercises`,
+      `${repeatCounts} ${hasMultipleBlocks ? "repeats" : "rounds"}`,
+    ];
+
+    if (hasMultipleBlocks) {
+      details.push(`${exerciseCount} exercises`);
+    }
+
+    return details.join(" · ");
   }
+  return "";
 }

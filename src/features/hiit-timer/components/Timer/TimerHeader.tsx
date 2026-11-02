@@ -1,8 +1,7 @@
 import type { HiitWorkout } from "../../../../models/workout";
 import { TIMER_PHASE, type TimerPhase } from "../../../../models/timer";
 import { formatTime } from "../../../../utils/time";
-
-import "./TimerHeader.css";
+import { WorkoutHeader } from "../../../../components/WorkoutHeader";
 
 interface TimerHeaderProps {
   workout: HiitWorkout;
@@ -20,57 +19,62 @@ export function TimerHeader({
   onRestart,
 }: TimerHeaderProps) {
   return (
-    <div className="timer-header">
-      <div className="timer-workout-details">
-        <div className="timer-status-row">
-          <p className="eyebrow">
-            {phase === TIMER_PHASE.IDLE && "READY TO TRAIN"}
-            {phase === TIMER_PHASE.COUNTDOWN && "GET READY"}
-            {phase === TIMER_PHASE.WORK && "WORK"}
-            {phase === TIMER_PHASE.REST && "REST"}
-            {phase === TIMER_PHASE.ROUND_REST && "ROUND COMPLETED, REST"}
-            {phase === TIMER_PHASE.FREEZE && "PAUSED"}
-            {phase === TIMER_PHASE.FINISHED && "WORKOUT COMPLETE"}
-          </p>
-        </div>
-
-        <div className="row">
-          <h4>{workout.name}</h4>
-
-          <div className="timer-workout-meta">
-            <span>{totalRounds} rounds</span>
-            <span className="separator">·</span>
-            <span>{formatTime(totalTime)} total</span>
-          </div>
-        </div>
-
-        <div className="timer-workout-meta">
+    <WorkoutHeader
+      status={getTimerStatus(phase)}
+      title={workout.name}
+      meta={
+        <>
+          <span>{totalRounds} rounds</span>
+          <span className="separator">·</span>
+          <span>{formatTime(totalTime)} total</span>
+        </>
+      }
+      details={
+        <>
           <span>{workout.workSeconds}s work</span>
-
           {workout.restEnabled && (
             <>
               <span className="separator">·</span>
               <span>{workout.restSeconds}s rest</span>
             </>
           )}
-
           {workout.roundRestEnabled && (
             <>
               <span className="separator">·</span>
               <span>{workout.roundRestSeconds}s round rest</span>
             </>
           )}
-        </div>
-      </div>
-
-      <button
-        type="button"
-        className="timer-menu-button"
-        aria-label="Restart workout"
-        onClick={onRestart}
-      >
-        ↻
-      </button>
-    </div>
+        </>
+      }
+      action={
+        <button
+          type="button"
+          className="timer-menu-button"
+          aria-label="Restart workout"
+          onClick={onRestart}
+        >
+          ↻
+        </button>
+      }
+    />
   );
+}
+
+function getTimerStatus(phase: TimerPhase): string {
+  switch (phase) {
+    case TIMER_PHASE.IDLE:
+      return "READY TO TRAIN";
+    case TIMER_PHASE.COUNTDOWN:
+      return "GET READY";
+    case TIMER_PHASE.WORK:
+      return "WORK";
+    case TIMER_PHASE.REST:
+      return "REST";
+    case TIMER_PHASE.ROUND_REST:
+      return "ROUND COMPLETED, REST";
+    case TIMER_PHASE.FREEZE:
+      return "PAUSED";
+    case TIMER_PHASE.FINISHED:
+      return "WORKOUT COMPLETE";
+  }
 }

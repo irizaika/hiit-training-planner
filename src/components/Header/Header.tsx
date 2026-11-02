@@ -43,19 +43,12 @@ export function Header({
 
         <button
           type="button"
-          className={currentRoute === routes.rounds ? "active" : ""}
-          onClick={() => onNavigate(routes.rounds)}
+          className={currentRoute === routes.training ? "active" : ""}
+          onClick={() => onNavigate(routes.training)}
         >
-          Rounds
+          Training
         </button>
 
-        <button
-          type="button"
-          className={currentRoute === routes.sets ? "active" : ""}
-          onClick={() => onNavigate(routes.sets)}
-        >
-          Sets
-        </button>
       </nav>
     </header>
   );

@@ -1,6 +1,6 @@
 import type { Exercise } from "./exercise";
 
-export type WorkoutType = "hiit" | "rounds" | "sets";
+export type WorkoutType = "hiit" | "training";
 
 export interface BaseWorkout {
   id: number;
@@ -10,47 +10,106 @@ export interface BaseWorkout {
   updatedAt: string;
 }
 
+/* ---------------- HIIT ---------------- */
+
 export interface HiitWorkout extends BaseWorkout {
   type: "hiit";
   exercises: Exercise[];
 
   workSeconds: number;
 
-  // Pause between exercises
   restSeconds: number;
   restEnabled: boolean;
 
-  // Pause between rounds
   roundRestSeconds: number;
   roundRestEnabled: boolean;
 
   rounds: number;
 }
 
-export interface RoundWorkout extends BaseWorkout {
-  type: "rounds";
+/* ---------------- TRAINING ---------------- */
 
-  rounds: Round[];
-  repeatCount: number;
+export type TrainingMode =
+  | "sets"
+  | "circular"
+  | "supersets";
+
+export type TrainingWorkout =
+  | SetsWorkout
+  | CircularWorkout
+  | SupersetWorkout;
+
+/* ---------------- SETS ---------------- */
+
+export interface SetsWorkout extends BaseWorkout {
+  type: "training";
+  mode: "sets";
+  exercises: SetExercise[];
+  restBetweenExercises?: RestConfig;
 }
 
-export interface Round {
-  id: string;
-  exercises: Exercise[];
-}
-
-export interface SetWorkout extends BaseWorkout {
-  type: "sets";
-
-  exercises: Exercise[];
+export type SetExercise = WorkoutExercise &{
+  id: number;
   sets: number;
-  restBetweenSetsSeconds?: number;
+  restBetweenSets?: RestConfig;
+};
+
+/* ---------------- CIRCULAR ---------------- */
+
+export interface CircularWorkout extends BaseWorkout {
+  type: "training";
+  mode: "circular";
+  blocks: [WorkoutBlock];
 }
+
+/* ---------------- SUPERSETS ---------------- */
+
+export interface SupersetWorkout extends BaseWorkout {
+  type: "training";
+  mode: "supersets";
+  blocks: WorkoutBlock[];
+}
+
+/* ---------------- SHARED ---------------- */
+
+export type WorkoutBlock = {
+  id: number;
+  name?: string;
+  exercises: WorkoutExercise[];
+  repeatCount: number;
+  restBetweenExercises?: RestConfig;
+  restBetweenRepeats?: RestConfig;
+};
+
+export type WorkoutExercise = {
+  id: number;
+  name: string;
+  target?: ExerciseTarget;
+  timer?: TimerConfig;
+};
+
+export type ExerciseTarget =
+  | { type: "reps"; value: number }
+  | { type: "duration"; seconds: number }
+  | { type: "distance"; value: number; unit: "m" | "km" }
+  | { type: "none" };
+
+export type TimerConfig =
+  | { enabled: false }
+  | { enabled: true; seconds: number };
+
+export type RestConfig = {
+  enabled: boolean;
+  seconds: number;
+};
+
+/* ---------------- ALL WORKOUTS ---------------- */
+
+export type Workout =
+  | HiitWorkout
+  | TrainingWorkout;
 
 export type Workouts = {
   hiit: HiitWorkout[];
-  rounds: RoundWorkout[];
-  sets: SetWorkout[];
+  trainings: TrainingWorkout[];
 };
-
-export type Workout = HiitWorkout | RoundWorkout | SetWorkout;
